@@ -1,0 +1,14 @@
+{
+	"@metadata": {
+		"authors": [
+			"Alex Winkler"
+		]
+	},
+	"lpcodemirror-desc": "CodeMirror Editor für Liquipedia.",
+	"prefs-lpcodemirror": "CodeMirror",
+
+	"lpcodemirror-prefs-use-codemirror-phone": "Verwende CodeMirror Editor (weniger als 767px Bildschirmbreite)",
+	"lpcodemirror-prefs-use-codemirror-tablet": "Verwende CodeMirror Editor (zwischen 768px und 991px Bildschirmbreite)",
+	"lpcodemirror-prefs-use-codemirror": "Verwende CodeMirror Editor (mehr als 992px Bildschirmbreite)",
+	"lpcodemirror-prefs-use-codemirror-linewrap": "Breche Zeilen im CodeMirror Editor"
+}

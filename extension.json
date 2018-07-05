@@ -1,0 +1,75 @@
+{
+	"name": "LPCodeMirror",
+	"version": "1.0.0",
+	"author": [
+		"[https://fo-nttax.de Alex Winkler]"
+	],
+	"url": "https://liquipedia.net",
+	"descriptionmsg": "lpcodemirror-desc",
+	"license-name": "MIT",
+	"type": "parserhook",
+	"requires": {
+		"MediaWiki": ">= 1.31.0"
+	},
+	"MessagesDirs": {
+		"LPCodeMirror": [
+			"i18n"
+		]
+	},
+	"AutoloadClasses": {
+		"Liquipedia\\LPCodeMirror\\Hooks": "LPCodeMirrorHooks.php"
+	},
+	"Hooks": {
+		"BeforePageDisplay": [
+			"Liquipedia\\LPCodeMirror\\Hooks::onBeforePageDisplay"
+		],
+		"GetPreferences": [
+			"Liquipedia\\LPCodeMirror\\Hooks::onGetPreferences"
+		],
+		"MakeGlobalVariablesScript": [
+			"Liquipedia\\LPCodeMirror\\Hooks::onMakeGlobalVariablesScript"
+		],
+		"LoadExtensionSchemaUpdates": [
+			"Liquipedia\\LPCodeMirror\\Hooks::onLoadExtensionSchemaUpdates"
+		]
+	},
+	"ResourceModules": {
+		"ext.LPCodeMirror.codemirror": {
+			"scripts": [
+				"scripts/codemirror.js"
+			],
+			"position": "bottom",
+			"dependencies": [
+				"ext.LPCodeMirror.codemirror.lib",
+				"user.options",
+				"ext.wikiEditor"
+			]
+		},
+		"ext.LPCodeMirror.codemirror.lib": {
+			"styles": [
+				"vendor/codemirror/lib/codemirror.css",
+				"vendor/codemirror/addon/display/fullscreen.css",
+				"vendor/codemirror-mode/mediawiki/mediawiki.css",
+				"styles/codemirror.css"
+			],
+			"scripts": [
+				"vendor/codemirror/lib/codemirror.js",
+				"vendor/codemirror/addon/display/fullscreen.js",
+				"vendor/codemirror/addon/edit/matchbrackets.js",
+				"vendor/codemirror/addon/selection/active-line.js",
+				"vendor/codemirror/mode/xml/xml.js",
+				"vendor/codemirror/mode/css/css.js",
+				"vendor/codemirror/mode/javascript/javascript.js",
+				"vendor/codemirror/mode/htmlmixed/htmlmixed.js",
+				"vendor/codemirror/mode/lua/lua.js",
+				"vendor/codemirror-mode/mediawiki/mediawiki.js"
+			],
+			"position": "bottom"
+		}
+	},
+	"ResourceFileModulePaths": {
+		"localBasePath": "",
+		"remoteExtPath": "LPCodeMirror"
+	},
+	"manifest_version": 1
+}
