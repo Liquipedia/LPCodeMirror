@@ -82,7 +82,7 @@ class Hooks {
 	}
 
 	public static function onBeforePageDisplay( \OutputPage &$out, \Skin &$skin ) {
-		if ( $skin->getUser()->getOption( 'lpcodemirror-prefs-use-codemirror' ) == true ) {
+		if ( $skin->getUser()->getOption( 'lpcodemirror-prefs-use-codemirror' ) == true && in_array( $out->getContext()->getRequest()->getText( 'action' ), [ 'edit', 'submit' ] ) ) {
 			$out->addModules( 'ext.LPCodeMirror.codemirror' );
 		}
 	}
