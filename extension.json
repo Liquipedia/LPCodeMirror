@@ -28,9 +28,6 @@
 		],
 		"MakeGlobalVariablesScript": [
 			"Liquipedia\\LPCodeMirror\\Hooks::onMakeGlobalVariablesScript"
-		],
-		"LoadExtensionSchemaUpdates": [
-			"Liquipedia\\LPCodeMirror\\Hooks::onLoadExtensionSchemaUpdates"
 		]
 	},
 	"ResourceModules": {

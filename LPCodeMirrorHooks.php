@@ -87,20 +87,4 @@ class Hooks {
 		}
 	}
 
-	public static function onLoadExtensionSchemaUpdates( \DatabaseUpdater $updater ) {
-		$updater->output( "\n" . 'Run updates for CodeMirror' . "\n" );
-		$db = $updater->getDB();
-		$preferences = [
-			'prefs-use-codemirror-phone',
-			'prefs-use-codemirror-tablet',
-			'prefs-use-codemirror',
-			'prefs-use-codemirror-linewrap',
-		];
-		foreach ( $preferences as $preference ) {
-			$db->update( 'user_properties', [ 'up_property' => 'lpcodemirror-' . $preference ], [ 'up_property' => 'liquiflow-' . $preference ] );
-		}
-		$updater->output( "done.\n" );
-		echo "\n";
-	}
-
 }
