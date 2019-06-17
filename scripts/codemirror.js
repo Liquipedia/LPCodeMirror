@@ -1,14 +1,14 @@
-if( !String.prototype.startsWith ) {
+if ( !String.prototype.startsWith ) {
 	String.prototype.startsWith = function( searchString, position ) {
 		position = position || 0;
 		return this.substr( position, searchString.length ) === searchString;
 	};
 }
 
-if( !String.prototype.endsWith ) {
+if ( !String.prototype.endsWith ) {
 	String.prototype.endsWith = function( searchString, position ) {
 		var subjectString = this.toString();
-		if( typeof position !== 'number' || !isFinite( position ) || Math.floor( position ) !== position || position > subjectString.length ) {
+		if ( typeof position !== 'number' || !isFinite( position ) || Math.floor( position ) !== position || position > subjectString.length ) {
 			position = subjectString.length;
 		}
 		position -= searchString.length;
@@ -17,13 +17,13 @@ if( !String.prototype.endsWith ) {
 	};
 }
 
-if( !String.prototype.includes ) {
+if ( !String.prototype.includes ) {
 	String.prototype.includes = function( search, start ) {
 		'use strict';
-		if( typeof start !== 'number' ) {
+		if ( typeof start !== 'number' ) {
 			start = 0;
 		}
-		if( start + search.length > this.length ) {
+		if ( start + search.length > this.length ) {
 			return false;
 		} else {
 			return this.indexOf( search, start ) !== -1;
@@ -37,10 +37,10 @@ if( !String.prototype.includes ) {
  */
 
 ( function( mw, $ ) {
-	if( mw.config.get( 'wgCodeEditorCurrentLanguage' ) ) { // If the CodeEditor is used then just exit;
+	if ( mw.config.get( 'wgCodeEditorCurrentLanguage' ) ) { // If the CodeEditor is used then just exit;
 		return;
 	}
-	if( !( mw.config.get( 'wgAction' ) === 'edit' || mw.config.get( 'wgAction' ) === 'submit' ) ) {
+	if ( !( mw.config.get( 'wgAction' ) === 'edit' || mw.config.get( 'wgAction' ) === 'submit' ) ) {
 		return;
 	}
 
@@ -53,7 +53,7 @@ if( !String.prototype.includes ) {
 		codeMirror,
 		// function for a textselection function for CodeMirror
 		cmTextSelection = function( command, options ) {
-			if( !codeMirror || codeMirror.getTextArea() !== this[ 0 ] ) {
+			if ( !codeMirror || codeMirror.getTextArea() !== this[ 0 ] ) {
 				return origTextSelection.call( this, command, options );
 			}
 			var fn, retval;
@@ -92,25 +92,25 @@ if( !String.prototype.includes ) {
 							startCursor = codeMirror.doc.getCursor( true ),
 							endCursor = codeMirror.doc.getCursor( false );
 
-						if( options.selectionStart !== undefined ) {
+						if ( options.selectionStart !== undefined ) {
 							// fn[command].call( this, options );
 							fn.setSelection( { start: options.selectionStart, end: options.selectionEnd } ); // not tested
 						}
 
 						selText = codeMirror.doc.getSelection();
-						if( !selText ) {
+						if ( !selText ) {
 							selText = options.peri;
-						} else if( options.replace ) {
+						} else if ( options.replace ) {
 							selectPeri = false;
 							selText = options.peri;
 						} else {
 							selectPeri = false;
-							while( selText.charAt( selText.length - 1 ) === ' ' ) {
+							while ( selText.charAt( selText.length - 1 ) === ' ' ) {
 								// Exclude ending space char
 								selText = selText.substring( 0, selText.length - 1 );
 								post += ' ';
 							}
-							while( selText.charAt( 0 ) === ' ' ) {
+							while ( selText.charAt( 0 ) === ' ' ) {
 								// Exclude prepending space char
 								selText = selText.substring( 1, selText.length );
 								pre = ' ' + pre;
@@ -118,38 +118,38 @@ if( !String.prototype.includes ) {
 						}
 
 						/**
-						* Do the splitlines stuff.
-						*
-						* Wrap each line of the selected text with pre and post
-						*/
+						 * Do the splitlines stuff.
+						 *
+						 * Wrap each line of the selected text with pre and post
+						 */
 						function doSplitLines( selText, pre, post ) {
 							var i,
 								insertText = '',
 								selTextArr = selText.split( '\n' );
 
-							for( i = 0; i < selTextArr.length; i++ ) {
+							for ( i = 0; i < selTextArr.length; i++ ) {
 								insertText += pre + selTextArr[ i ] + post;
-								if( i !== selTextArr.length - 1 ) {
+								if ( i !== selTextArr.length - 1 ) {
 									insertText += '\n';
 								}
 							}
 							return insertText;
 						}
 
-						if( options.splitlines ) {
+						if ( options.splitlines ) {
 							selectPeri = false;
 							insertText = doSplitLines( selText, pre, post );
 						} else {
 							insertText = pre + selText + post;
 						}
 
-						if( options.ownline ) {
-							if( startCursor.ch !== 0 ) {
+						if ( options.ownline ) {
+							if ( startCursor.ch !== 0 ) {
 								insertText = '\n' + insertText;
 								pre += '\n';
 							}
 
-							if( codeMirror.doc.getLine( endCursor.line ).length !== endCursor.ch ) {
+							if ( codeMirror.doc.getLine( endCursor.line ).length !== endCursor.ch ) {
 								insertText += '\n';
 								post += '\n';
 							}
@@ -157,10 +157,10 @@ if( !String.prototype.includes ) {
 
 						codeMirror.doc.replaceSelection( insertText );
 
-						if( selectPeri ) {
+						if ( selectPeri ) {
 							codeMirror.doc.setSelection(
-									codeMirror.doc.posFromIndex( codeMirror.doc.indexFromPos( startCursor ) + pre.length ),
-									codeMirror.doc.posFromIndex( codeMirror.doc.indexFromPos( startCursor ) + pre.length + selText.length )
+								codeMirror.doc.posFromIndex( codeMirror.doc.indexFromPos( startCursor ) + pre.length ),
+								codeMirror.doc.posFromIndex( codeMirror.doc.indexFromPos( startCursor ) + pre.length + selText.length )
 								);
 						}
 					} );
@@ -173,7 +173,7 @@ if( !String.prototype.includes ) {
 				getCaretPosition: function( options ) {
 					var caretPos = codeMirror.doc.indexFromPos( codeMirror.doc.getCursor( true ) ),
 						endPos = codeMirror.doc.indexFromPos( codeMirror.doc.getCursor( false ) );
-					if( options.startAndEnd ) {
+					if ( options.startAndEnd ) {
 						return [ caretPos, endPos ];
 					}
 					return caretPos;
@@ -186,9 +186,9 @@ if( !String.prototype.includes ) {
 				},
 
 				/**
-				* Scroll a textarea to the current cursor position. You can set the cursor
-				* position with setSelection()
-				*/
+				 * Scroll a textarea to the current cursor position. You can set the cursor
+				 * position with setSelection()
+				 */
 				scrollToCaretPosition: function() {
 					return this.each( function() {
 						codeMirror.scrollIntoView( null );
@@ -196,7 +196,7 @@ if( !String.prototype.includes ) {
 				}
 			};
 
-			switch( command ) {
+			switch ( command ) {
 				// case 'getContents': // no params
 				// case 'setContents': // no params with defaults
 				// case 'getSelection': // no params
@@ -232,10 +232,10 @@ if( !String.prototype.includes ) {
 						endContainer: undefined
 					}, options );
 
-					if( options.end === undefined ) {
+					if ( options.end === undefined ) {
 						options.end = options.start;
 					}
-					if( options.endContainer === undefined ) {
+					if ( options.endContainer === undefined ) {
 						options.endContainer = options.startContainer;
 					}
 					// FIXME: We may not need character position-based functions if we insert markers in the right places
@@ -257,17 +257,17 @@ if( !String.prototype.includes ) {
 	// define JQuery hook for searching and replacing text using JS if CodeMirror is enabled, see Bug: T108711
 	$.valHooks.textarea = {
 		get: function( elem ) {
-			if( elem.id === 'wpTextbox1' && codeMirror ) {
+			if ( elem.id === 'wpTextbox1' && codeMirror ) {
 				return codeMirror.doc.getValue();
-			} else if( originHooksTextarea ) {
+			} else if ( originHooksTextarea ) {
 				return originHooksTextarea.get( elem );
 			}
 			return elem.value;
 		},
 		set: function( elem, value ) {
-			if( elem.id === 'wpTextbox1' && codeMirror ) {
+			if ( elem.id === 'wpTextbox1' && codeMirror ) {
 				return codeMirror.doc.setValue( value );
-			} else if( originHooksTextarea ) {
+			} else if ( originHooksTextarea ) {
 				return originHooksTextarea.set( elem, value );
 			}
 			elem.value = value;
@@ -280,19 +280,19 @@ if( !String.prototype.includes ) {
 	function enableCodeMirror() {
 		var textbox1 = $( '#wpTextbox1' );
 
-		if( textbox1[ 0 ].style.display === 'none' ) {
+		if ( textbox1[ 0 ].style.display === 'none' ) {
 			return;
 		}
 		var editmode;
 		var indentmode;
 		var locationStr = window.location.href;
-		if((locationStr.endsWith( '.js' )) || (locationStr.includes( '.js&' ))) {
+		if ( ( locationStr.endsWith( '.js' ) ) || ( locationStr.includes( '.js&' ) ) ) {
 			editmode = 'text/javascript';
 			indentmode = true;
-		} else if((locationStr.endsWith( '.css' )) || (locationStr.includes( '.css&' ))) {
+		} else if ( ( locationStr.endsWith( '.css' ) ) || ( locationStr.includes( '.css&' ) ) ) {
 			editmode = 'text/css';
 			indentmode = true;
-		} else if(locationStr.includes( '/index.php?title=Module:' )) {
+		} else if ( locationStr.includes( '/index.php?title=Module:' ) ) {
 			editmode = 'text/x-lua';
 			indentmode = true;
 		} else {
@@ -301,37 +301,37 @@ if( !String.prototype.includes ) {
 		}
 		var linewrapping = mw.user.options.get( 'lpcodemirror-prefs-use-codemirror-linewrap' ) === '1' || mw.user.options.get( 'lpcodemirror-prefs-use-codemirror-linewrap' ) === 1;
 		codeMirror = CodeMirror.fromTextArea( textbox1[ 0 ], {
-				mwextFunctionSynonyms: mw.config.get( 'LPCodemirrorFunctionSynonyms' ),
-				mwextTags: mw.config.get( 'LPCodemirrorTags' ),
-				mwextDoubleUnderscore: mw.config.get( 'LPCodemirrorDoubleUnderscore' ),
-				mwextUrlProtocols: mw.config.get( 'LPCodemirrorUrlProtocols' ),
-				mwextModes: mw.config.get( 'LPCodemirrorExtModes' ),
-				lineNumbers: true,
-				mode: editmode,
-				autofocus: true,
-				flattenSpans: false,
-				matchBrackets: true,
-				viewportMargin: 5000,
-				indentWithTabs: indentmode,
-				extraKeys: {
-					"F11": function( cm ) {
-						cm.setOption( "fullScreen", !cm.getOption( "fullScreen" ) );
-					},
-					"Esc": function( cm ) {
-						if( cm.getOption( "fullScreen" ) ) {
-							cm.setOption( "fullScreen", false );
-						}
-					}
+			mwextFunctionSynonyms: mw.config.get( 'LPCodemirrorFunctionSynonyms' ),
+			mwextTags: mw.config.get( 'LPCodemirrorTags' ),
+			mwextDoubleUnderscore: mw.config.get( 'LPCodemirrorDoubleUnderscore' ),
+			mwextUrlProtocols: mw.config.get( 'LPCodemirrorUrlProtocols' ),
+			mwextModes: mw.config.get( 'LPCodemirrorExtModes' ),
+			lineNumbers: true,
+			mode: editmode,
+			autofocus: true,
+			flattenSpans: false,
+			matchBrackets: true,
+			viewportMargin: 5000,
+			indentWithTabs: indentmode,
+			extraKeys: {
+				"F11": function( cm ) {
+					cm.setOption( "fullScreen", !cm.getOption( "fullScreen" ) );
 				},
-				readOnly: textbox1[ 0 ].readOnly,
-				lineWrapping: linewrapping,
-				styleActiveLine: true
-			} );
+				"Esc": function( cm ) {
+					if ( cm.getOption( "fullScreen" ) ) {
+						cm.setOption( "fullScreen", false );
+					}
+				}
+			},
+			readOnly: textbox1[ 0 ].readOnly,
+			lineWrapping: linewrapping,
+			styleActiveLine: true
+		} );
 		// Our best friend, IE, needs some special css
-		if( window.navigator.userAgent.indexOf( 'Trident/' ) > -1 ) {
+		if ( window.navigator.userAgent.indexOf( 'Trident/' ) > -1 ) {
 			$( '.CodeMirror' ).addClass( 'CodeMirrorIE' );
 		}
-		if( linewrapping ) {
+		if ( linewrapping ) {
 			$( '.CodeMirror' ).addClass( 'lineWrapping' );
 		}
 
@@ -339,30 +339,30 @@ if( !String.prototype.includes ) {
 		codeMirror.setSize( null, textbox1.height() );
 		// Overwrite default textselection of WikiEditor to work with CodeMirror, too
 		$.fn.textSelection = cmTextSelection;
-		
+
 		function openPageOnClick( cssClass, element ) {
 			var pagename = element.text();
 			var index = element.index();
 			var counter;
 
 			counter = index - 1;
-			while( element.parent().children().eq( counter ).hasClass( cssClass ) ) {
+			while ( element.parent().children().eq( counter ).hasClass( cssClass ) ) {
 				pagename = element.parent().children().eq( counter ).text() + pagename;
 				counter--;
 			}
 
 			counter = index + 1;
-			while( element.parent().children().eq( counter ).hasClass( cssClass ) ) {
+			while ( element.parent().children().eq( counter ).hasClass( cssClass ) ) {
 				pagename = pagename + element.parent().children().eq( counter ).text();
 				counter++;
 			}
 
 			pagename = pagename.substr( 0, 1 ).toUpperCase() + pagename.substr( 1 );
 
-			if( cssClass === 'cm-mw-template-name' ) {
-				if( pagename.startsWith( ':' ) ) {
+			if ( cssClass === 'cm-mw-template-name' ) {
+				if ( pagename.startsWith( ':' ) ) {
 					pagename = pagename.substr( 1 );
-				} else if( !pagename.includes( ':' ) ) {
+				} else if ( !pagename.includes( ':' ) ) {
 					pagename = 'Template:' + pagename;
 				}
 			}
@@ -371,27 +371,27 @@ if( !String.prototype.includes ) {
 		}
 
 		$( '.CodeMirror' ).on( 'click', '.cm-mw-template-name', function( e ) {
-			if( e.altKey ) {
+			if ( e.altKey ) {
 				openPageOnClick( 'cm-mw-template-name', $( this ) );
 			}
 		} );
 
 		$( '.CodeMirror' ).on( 'click', '.cm-mw-link-pagename', function( e ) {
-			if( e.altKey ) {
+			if ( e.altKey ) {
 				openPageOnClick( 'cm-mw-link-pagename', $( this ) );
 			}
 		} );
 	}
 
 	// enable CodeMirror
-	if( window.innerWidth <= 767 ) {
+	if ( window.innerWidth <= 767 ) {
 		codeMirror = codeMirrorPhone;
-	} else if( window.innerWidth <= 991 ) {
+	} else if ( window.innerWidth <= 991 ) {
 		codeMirror = codeMirrorTablet;
 	} else {
 		codeMirror = codeMirrorDesktop;
 	}
-	if( codeMirror ) {
+	if ( codeMirror ) {
 		enableCodeMirror();
 	}
 }( mediaWiki, jQuery ) );
