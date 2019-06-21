@@ -16,8 +16,8 @@
 			"i18n"
 		]
 	},
-	"AutoloadClasses": {
-		"Liquipedia\\LPCodeMirror\\Hooks": "LPCodeMirrorHooks.php"
+	"AutoloadNamespaces": {
+		"Liquipedia\\LPCodeMirror\\": "src/"
 	},
 	"Hooks": {
 		"BeforePageDisplay": [
