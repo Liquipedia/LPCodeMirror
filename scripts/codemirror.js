@@ -392,6 +392,8 @@ if ( !String.prototype.includes ) {
 		codeMirror = codeMirrorDesktop;
 	}
 	if ( codeMirror ) {
-		enableCodeMirror();
+		mw.hook( 'wikipage.editform' ).add( function() {
+			enableCodeMirror();
+		} );
 	}
 }( mediaWiki, jQuery ) );
