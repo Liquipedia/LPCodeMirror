@@ -63,11 +63,11 @@ if ( !String.prototype.includes ) {
 				 * Get the contents of the textarea
 				 */
 				getContents: function() {
-					return codeMirror.doc.getValue();
+					return codeMirror.getValue();
 				},
 
 				setContents: function( newContents ) {
-					codeMirror.doc.setValue( newContents );
+					codeMirror.setValue( newContents );
 				},
 
 				/**
@@ -75,7 +75,7 @@ if ( !String.prototype.includes ) {
 				 * in some browsers (IE/Opera)
 				 */
 				getSelection: function() {
-					return codeMirror.doc.getSelection();
+					return codeMirror.getSelection();
 				},
 
 				/**
@@ -89,15 +89,15 @@ if ( !String.prototype.includes ) {
 							selectPeri = options.selectPeri,
 							pre = options.pre,
 							post = options.post,
-							startCursor = codeMirror.doc.getCursor( true ),
-							endCursor = codeMirror.doc.getCursor( false );
+							startCursor = codeMirror.getCursor( true ),
+							endCursor = codeMirror.getCursor( false );
 
 						if ( options.selectionStart !== undefined ) {
 							// fn[command].call( this, options );
 							fn.setSelection( { start: options.selectionStart, end: options.selectionEnd } ); // not tested
 						}
 
-						selText = codeMirror.doc.getSelection();
+						selText = codeMirror.getSelection();
 						if ( !selText ) {
 							selText = options.peri;
 						} else if ( options.replace ) {
@@ -149,18 +149,18 @@ if ( !String.prototype.includes ) {
 								pre += '\n';
 							}
 
-							if ( codeMirror.doc.getLine( endCursor.line ).length !== endCursor.ch ) {
+							if ( codeMirror.getLine( endCursor.line ).length !== endCursor.ch ) {
 								insertText += '\n';
 								post += '\n';
 							}
 						}
 
-						codeMirror.doc.replaceSelection( insertText );
+						codeMirror.replaceSelection( insertText );
 
 						if ( selectPeri ) {
-							codeMirror.doc.setSelection(
-								codeMirror.doc.posFromIndex( codeMirror.doc.indexFromPos( startCursor ) + pre.length ),
-								codeMirror.doc.posFromIndex( codeMirror.doc.indexFromPos( startCursor ) + pre.length + selText.length )
+							codeMirror.setSelection(
+								codeMirror.posFromIndex( codeMirror.indexFromPos( startCursor ) + pre.length ),
+								codeMirror.posFromIndex( codeMirror.indexFromPos( startCursor ) + pre.length + selText.length )
 								);
 						}
 					} );
@@ -171,8 +171,8 @@ if ( !String.prototype.includes ) {
 				 * in a textarea
 				 */
 				getCaretPosition: function( options ) {
-					var caretPos = codeMirror.doc.indexFromPos( codeMirror.doc.getCursor( true ) ),
-						endPos = codeMirror.doc.indexFromPos( codeMirror.doc.getCursor( false ) );
+					var caretPos = codeMirror.indexFromPos( codeMirror.getCursor( true ) ),
+						endPos = codeMirror.indexFromPos( codeMirror.getCursor( false ) );
 					if ( options.startAndEnd ) {
 						return [ caretPos, endPos ];
 					}
@@ -181,7 +181,7 @@ if ( !String.prototype.includes ) {
 
 				setSelection: function( options ) {
 					return this.each( function() {
-						codeMirror.doc.setSelection( codeMirror.doc.posFromIndex( options.start ), codeMirror.doc.posFromIndex( options.end ) );
+						codeMirror.setSelection( codeMirror.posFromIndex( options.start ), codeMirror.posFromIndex( options.end ) );
 					} );
 				},
 
@@ -253,26 +253,6 @@ if ( !String.prototype.includes ) {
 			return retval;
 		},
 		originHooksTextarea = $.valHooks.textarea;
-
-	// define JQuery hook for searching and replacing text using JS if CodeMirror is enabled, see Bug: T108711
-	$.valHooks.textarea = {
-		get: function( elem ) {
-			if ( elem.id === 'wpTextbox1' && codeMirror ) {
-				return codeMirror.doc.getValue();
-			} else if ( originHooksTextarea ) {
-				return originHooksTextarea.get( elem );
-			}
-			return elem.value;
-		},
-		set: function( elem, value ) {
-			if ( elem.id === 'wpTextbox1' && codeMirror ) {
-				return codeMirror.doc.setValue( value );
-			} else if ( originHooksTextarea ) {
-				return originHooksTextarea.set( elem, value );
-			}
-			elem.value = value;
-		}
-	};
 
 	/**
 	 * Replaces the default textarea with CodeMirror
@@ -394,6 +374,26 @@ if ( !String.prototype.includes ) {
 	if ( codeMirror ) {
 		mw.hook( 'wikipage.editform' ).add( function() {
 			enableCodeMirror();
+
+			// define JQuery hook for searching and replacing text using JS if CodeMirror is enabled, see Bug: T108711
+			$.valHooks.textarea = {
+				get: function( elem ) {
+					if ( elem.id === 'wpTextbox1' && codeMirror ) {
+						return codeMirror.getValue();
+					} else if ( originHooksTextarea ) {
+						return originHooksTextarea.get( elem );
+					}
+					return elem.value;
+				},
+				set: function( elem, value ) {
+					if ( elem.id === 'wpTextbox1' && codeMirror ) {
+						return codeMirror.setValue( value );
+					} else if ( originHooksTextarea ) {
+						return originHooksTextarea.set( elem, value );
+					}
+					elem.value = value;
+				}
+			};
 		} );
 	}
-}( mediaWiki, jQuery ) );
+}( mw, jQuery ) );
