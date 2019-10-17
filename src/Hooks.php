@@ -2,6 +2,9 @@
 
 namespace Liquipedia\LPCodeMirror;
 
+use ExtensionRegistry;
+use MediaWiki\MediaWikiServices;
+
 class Hooks {
 
 	public static function onGetPreferences( $user, &$preferences ) {
@@ -33,52 +36,55 @@ class Hooks {
 		$context = $out->getContext();
 		// add CodeMirror vars only for edit pages
 		if ( in_array( $context->getRequest()->getText( 'action' ), [ 'edit', 'submit' ] ) ) {
-			$parser = $config->get( 'Parser' );
-			$contObj = $context->getLanguage();
-
-			if ( !isset( $parser->mFunctionSynonyms ) ) {
-				$parser->initialiseVariables();
-				$parser->firstCallInit();
-			}
-
 			// initialize global vars
 			$vars += [
-				'LPCodemirrorExtModes' => [
-					'tag' => [
-						'pre' => 'mw-tag-pre',
-						'nowiki' => 'mw-tag-nowiki',
-					],
-					'func' => [],
-					'data' => [],
-				],
-				'LPCodemirrorTags' => array_fill_keys( $parser->getTags(), true ),
-				'LPCodemirrorDoubleUnderscore' => [ [], [] ],
-				'LPCodemirrorFunctionSynonyms' => $parser->mFunctionSynonyms,
-				'LPCodemirrorUrlProtocols' => $parser->mUrlProtocols,
-				'LPCodemirrorLinkTrailCharacters' => $contObj->linkTrail(),
+				'LPCodeMirrorConfig' => self::getFrontendConfiguraton( $context->getLanguage() ),
 			];
+		}
+	}
 
-			$mw = $contObj->getMagicWords();
-			foreach ( \MagicWord::getDoubleUnderscoreArray()->names as $name ) {
-				if ( isset( $mw[ $name ] ) ) {
-					$caseSensitive = array_shift( $mw[ $name ] ) == 0 ? 0 : 1;
-					foreach ( $mw[ $name ] as $n ) {
-						$vars[ 'LPCodemirrorDoubleUnderscore' ][ $caseSensitive ][ $caseSensitive ? $n : $contObj->lc( $n ) ] = $name;
-					}
-				} else {
-					$vars[ 'LPCodemirrorDoubleUnderscore' ][ 0 ][] = $name;
+	private static function getFrontendConfiguraton( $lang ) {
+		// Use the content language, not the user language. (See T170130.)
+		#$lang = MediaWikiServices::getInstance()->getContentLanguage();
+		$registry = ExtensionRegistry::getInstance();
+		$parser = MediaWikiServices::getInstance()->getParser();
+		if ( !isset( $parser->mFunctionSynonyms ) ) {
+			$parser->initialiseVariables();
+			$parser->firstCallInit();
+		}
+		// initialize configuration
+		$config = [
+			'pluginModules' => $registry->getAttribute( 'CodeMirrorPluginModules' ),
+			'tagModes' => $registry->getAttribute( 'CodeMirrorTagModes' ),
+			'tags' => array_fill_keys( $parser->getTags(), true ),
+			'doubleUnderscore' => [ [], [] ],
+			'functionSynonyms' => $parser->mFunctionSynonyms,
+			'urlProtocols' => $parser->mUrlProtocols,
+			'linkTrailCharacters' => $lang->linkTrail(),
+		];
+		$mw = $lang->getMagicWords();
+		#$magicWordFactory = $parser->getMagicWordFactory();
+		foreach ( \MagicWord::getDoubleUnderscoreArray()->names as $name ) {
+			if ( isset( $mw[ $name ] ) ) {
+				$caseSensitive = array_shift( $mw[ $name ] ) == 0 ? 0 : 1;
+				foreach ( $mw[ $name ] as $n ) {
+					$n = $caseSensitive ? $n : $lang->lc( $n );
+					$config[ 'doubleUnderscore' ][ $caseSensitive ][ $n ] = $name;
 				}
+			} else {
+				$config[ 'doubleUnderscore' ][ 0 ][] = $name;
 			}
-
-			foreach ( \MagicWord::getVariableIDs() as $name ) {
-				if ( isset( $mw[ $name ] ) ) {
-					$caseSensitive = array_shift( $mw[ $name ] ) == 0 ? 0 : 1;
-					foreach ( $mw[ $name ] as $n ) {
-						$vars[ 'LPCodemirrorFunctionSynonyms' ][ $caseSensitive ][ $caseSensitive ? $n : $contObj->lc( $n ) ] = $name;
-					}
+		}
+		foreach ( \MagicWord::getVariableIDs() as $name ) {
+			if ( isset( $mw[ $name ] ) ) {
+				$caseSensitive = array_shift( $mw[ $name ] ) == 0 ? 0 : 1;
+				foreach ( $mw[ $name ] as $n ) {
+					$n = $caseSensitive ? $n : $lang->lc( $n );
+					$config[ 'functionSynonyms' ][ $caseSensitive ][ $n ] = $name;
 				}
 			}
 		}
+		return $config;
 	}
 
 	public static function onBeforePageDisplay( \OutputPage &$out, \Skin &$skin ) {

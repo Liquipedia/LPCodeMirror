@@ -4073,7 +4073,7 @@
     }
 
     // Unescape \ and / in the replace part, for PCRE mode.
-    var unescapes = {'\\/': '/', '\\\\': '\\', '\\n': '\n', '\\r': '\r', '\\t': '\t'};
+    var unescapes = {'\\/': '/', '\\\\': '\\', '\\n': '\n', '\\r': '\r', '\\t': '\t', '\\&':'&'};
     function unescapeRegexReplace(str) {
       var stream = new CodeMirror.StringStream(str);
       var output = [];
@@ -4229,23 +4229,27 @@
         query: query
       };
     }
+    var highlightTimeout = 0;
     function highlightSearchMatches(cm, query) {
-      var searchState = getSearchState(cm);
-      var overlay = searchState.getOverlay();
-      if (!overlay || query != overlay.query) {
-        if (overlay) {
-          cm.removeOverlay(overlay);
-        }
-        overlay = searchOverlay(query);
-        cm.addOverlay(overlay);
-        if (cm.showMatchesOnScrollbar) {
-          if (searchState.getScrollbarAnnotate()) {
-            searchState.getScrollbarAnnotate().clear();
+      clearTimeout(highlightTimeout);
+      highlightTimeout = setTimeout(function() {
+        var searchState = getSearchState(cm);
+        var overlay = searchState.getOverlay();
+        if (!overlay || query != overlay.query) {
+          if (overlay) {
+            cm.removeOverlay(overlay);
           }
-          searchState.setScrollbarAnnotate(cm.showMatchesOnScrollbar(query));
+          overlay = searchOverlay(query);
+          cm.addOverlay(overlay);
+          if (cm.showMatchesOnScrollbar) {
+            if (searchState.getScrollbarAnnotate()) {
+              searchState.getScrollbarAnnotate().clear();
+            }
+            searchState.setScrollbarAnnotate(cm.showMatchesOnScrollbar(query));
+          }
+          searchState.setOverlay(overlay);
         }
-        searchState.setOverlay(overlay);
-      }
+      }, 50);
     }
     function findNext(cm, prev, query, repeat) {
       if (repeat === undefined) { repeat = 1; }
@@ -4857,6 +4861,9 @@
         var global = false; // True to replace all instances on a line, false to replace only 1.
         if (tokens.length) {
           regexPart = tokens[0];
+          if (getOption('pcre') && regexPart !== '') {
+              regexPart = new RegExp(regexPart).source; //normalize not escaped characters
+          }
           replacePart = tokens[1];
           if (regexPart && regexPart[regexPart.length - 1] === '$') {
             regexPart = regexPart.slice(0, regexPart.length - 1) + '\\n';
@@ -4864,7 +4871,7 @@
           }
           if (replacePart !== undefined) {
             if (getOption('pcre')) {
-              replacePart = unescapeRegexReplace(replacePart);
+              replacePart = unescapeRegexReplace(replacePart.replace(/([^\\])&/g,"$1$$&"));
             } else {
               replacePart = translateRegexReplace(replacePart);
             }
@@ -4895,7 +4902,11 @@
               global = true;
               flagsPart.replace('g', '');
             }
-            regexPart = regexPart.replace(/\//g, "\\/") + '/' + flagsPart;
+            if (getOption('pcre')) {
+               regexPart = regexPart + '/' + flagsPart;
+            } else {
+               regexPart = regexPart.replace(/\//g, "\\/") + '/' + flagsPart;
+            }
           }
         }
         if (regexPart) {

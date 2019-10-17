@@ -258,6 +258,7 @@ if ( !String.prototype.includes ) {
 	 * Replaces the default textarea with CodeMirror
 	 */
 	function enableCodeMirror() {
+		var config = mw.config.get( 'LPCodeMirrorConfig' );
 		var textbox1 = $( '#wpTextbox1' );
 
 		if ( textbox1[ 0 ].style.display === 'none' ) {
@@ -281,11 +282,7 @@ if ( !String.prototype.includes ) {
 		}
 		var linewrapping = mw.user.options.get( 'lpcodemirror-prefs-use-codemirror-linewrap' ) === '1' || mw.user.options.get( 'lpcodemirror-prefs-use-codemirror-linewrap' ) === 1;
 		codeMirror = CodeMirror.fromTextArea( textbox1[ 0 ], {
-			mwextFunctionSynonyms: mw.config.get( 'LPCodemirrorFunctionSynonyms' ),
-			mwextTags: mw.config.get( 'LPCodemirrorTags' ),
-			mwextDoubleUnderscore: mw.config.get( 'LPCodemirrorDoubleUnderscore' ),
-			mwextUrlProtocols: mw.config.get( 'LPCodemirrorUrlProtocols' ),
-			mwextModes: mw.config.get( 'LPCodemirrorExtModes' ),
+			mwConfig: config,
 			lineNumbers: true,
 			mode: editmode,
 			autofocus: true,
