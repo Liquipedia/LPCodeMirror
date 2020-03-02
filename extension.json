@@ -7,7 +7,7 @@
 	"url": "https://liquipedia.net",
 	"descriptionmsg": "lpcodemirror-desc",
 	"license-name": "MIT",
-	"type": "parserhook",
+	"type": "editor",
 	"requires": {
 		"MediaWiki": ">= 1.31.0"
 	},
