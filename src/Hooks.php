@@ -3,10 +3,17 @@
 namespace Liquipedia\LPCodeMirror;
 
 use ExtensionRegistry;
+use MagicWord;
 use MediaWiki\MediaWikiServices;
+use OutputPage;
+use Skin;
 
 class Hooks {
 
+	/**
+	 * @param User $user
+	 * @param array &$preferences
+	 */
 	public static function onGetPreferences( $user, &$preferences ) {
 		// CodeMirror settings
 		$preferences[ 'lpcodemirror-prefs-use-codemirror-phone' ] = [
@@ -31,8 +38,11 @@ class Hooks {
 		];
 	}
 
-	public static function onMakeGlobalVariablesScript( array &$vars, \OutputPage $out ) {
-		$config = $out->getConfig();
+	/**
+	 * @param array &$vars
+	 * @param OutputPage $out
+	 */
+	public static function onMakeGlobalVariablesScript( array &$vars, OutputPage $out ) {
 		$context = $out->getContext();
 		// add CodeMirror vars only for edit pages
 		if ( in_array( $context->getRequest()->getText( 'action' ), [ 'edit', 'submit' ] ) ) {
@@ -43,9 +53,13 @@ class Hooks {
 		}
 	}
 
+	/**
+	 * @param Language $lang
+	 * @return array
+	 */
 	private static function getFrontendConfiguraton( $lang ) {
 		// Use the content language, not the user language. (See T170130.)
-		#$lang = MediaWikiServices::getInstance()->getContentLanguage();
+		// $lang = MediaWikiServices::getInstance()->getContentLanguage();
 		$registry = ExtensionRegistry::getInstance();
 		$parser = MediaWikiServices::getInstance()->getParser();
 		if ( !isset( $parser->mFunctionSynonyms ) ) {
@@ -63,8 +77,8 @@ class Hooks {
 			'linkTrailCharacters' => $lang->linkTrail(),
 		];
 		$mw = $lang->getMagicWords();
-		#$magicWordFactory = $parser->getMagicWordFactory();
-		foreach ( \MagicWord::getDoubleUnderscoreArray()->names as $name ) {
+		// $magicWordFactory = $parser->getMagicWordFactory();
+		foreach ( MagicWord::getDoubleUnderscoreArray()->names as $name ) {
 			if ( isset( $mw[ $name ] ) ) {
 				$caseSensitive = array_shift( $mw[ $name ] ) == 0 ? 0 : 1;
 				foreach ( $mw[ $name ] as $n ) {
@@ -75,7 +89,7 @@ class Hooks {
 				$config[ 'doubleUnderscore' ][ 0 ][] = $name;
 			}
 		}
-		foreach ( \MagicWord::getVariableIDs() as $name ) {
+		foreach ( MagicWord::getVariableIDs() as $name ) {
 			if ( isset( $mw[ $name ] ) ) {
 				$caseSensitive = array_shift( $mw[ $name ] ) == 0 ? 0 : 1;
 				foreach ( $mw[ $name ] as $n ) {
@@ -87,8 +101,15 @@ class Hooks {
 		return $config;
 	}
 
-	public static function onBeforePageDisplay( \OutputPage &$out, \Skin &$skin ) {
-		if ( $skin->getUser()->getOption( 'lpcodemirror-prefs-use-codemirror' ) == true && in_array( $out->getContext()->getRequest()->getText( 'action' ), [ 'edit', 'submit' ] ) ) {
+	/**
+	 * @param OutputPage &$out
+	 * @param Skin &$skin
+	 */
+	public static function onBeforePageDisplay( OutputPage &$out, Skin &$skin ) {
+		if (
+			$skin->getUser()->getOption( 'lpcodemirror-prefs-use-codemirror' ) == true
+			&& in_array( $out->getContext()->getRequest()->getText( 'action' ), [ 'edit', 'submit' ] )
+		) {
 			$out->addModules( 'ext.LPCodeMirror.codemirror' );
 		}
 	}

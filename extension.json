@@ -33,7 +33,7 @@
 	"ResourceModules": {
 		"ext.LPCodeMirror.codemirror": {
 			"scripts": [
-				"scripts/codemirror.js"
+				"resources/scripts/codemirror.js"
 			],
 			"position": "bottom",
 			"dependencies": [
@@ -47,7 +47,7 @@
 				"cm-library/codemirror/lib/codemirror.css",
 				"cm-library/codemirror/addon/display/fullscreen.css",
 				"cm-library/codemirror-mode/mediawiki/mediawiki.css",
-				"styles/codemirror.css"
+				"resources/styles/codemirror.css"
 			],
 			"scripts": [
 				"cm-library/codemirror/lib/codemirror.js",

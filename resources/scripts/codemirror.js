@@ -44,8 +44,8 @@ if ( !String.prototype.includes ) {
 		return;
 	}
 
-	// codeMirror needs a special textselection jQuery function to work, save the current one to restore when
-	// CodeMirror get's disabled.
+	// codeMirror needs a special textselection jQuery function to work,
+	// save the current one to restore when CodeMirror get's disabled.
 	var origTextSelection = $.fn.textSelection,
 		codeMirrorPhone = mw.user.options.get( 'lpcodemirror-prefs-use-codemirror-phone' ) === '1' || mw.user.options.get( 'lpcodemirror-prefs-use-codemirror-phone' ) === 1,
 		codeMirrorTablet = mw.user.options.get( 'lpcodemirror-prefs-use-codemirror-tablet' ) === '1' || mw.user.options.get( 'lpcodemirror-prefs-use-codemirror-tablet' ) === 1,
@@ -59,7 +59,7 @@ if ( !String.prototype.includes ) {
 			var fn, retval;
 
 			fn = {
-				/**
+				/*
 				 * Get the contents of the textarea
 				 */
 				getContents: function() {
@@ -70,7 +70,7 @@ if ( !String.prototype.includes ) {
 					codeMirror.setValue( newContents );
 				},
 
-				/**
+				/*
 				 * Get the currently selected text in this textarea. Will focus the textarea
 				 * in some browsers (IE/Opera)
 				 */
@@ -78,7 +78,7 @@ if ( !String.prototype.includes ) {
 					return codeMirror.getSelection();
 				},
 
-				/**
+				/*
 				 * Inserts text at the beginning and end of a text selection, optionally
 				 * inserting text at the caret when selection is empty.
 				 */
@@ -94,7 +94,9 @@ if ( !String.prototype.includes ) {
 
 						if ( options.selectionStart !== undefined ) {
 							// fn[command].call( this, options );
-							fn.setSelection( { start: options.selectionStart, end: options.selectionEnd } ); // not tested
+							fn.setSelection(
+								{ start: options.selectionStart, end: options.selectionEnd }
+							); // not tested
 						}
 
 						selText = codeMirror.getSelection();
@@ -117,7 +119,7 @@ if ( !String.prototype.includes ) {
 							}
 						}
 
-						/**
+						/*
 						 * Do the splitlines stuff.
 						 *
 						 * Wrap each line of the selected text with pre and post
@@ -159,14 +161,19 @@ if ( !String.prototype.includes ) {
 
 						if ( selectPeri ) {
 							codeMirror.setSelection(
-								codeMirror.posFromIndex( codeMirror.indexFromPos( startCursor ) + pre.length ),
-								codeMirror.posFromIndex( codeMirror.indexFromPos( startCursor ) + pre.length + selText.length )
-								);
+								codeMirror.posFromIndex(
+									codeMirror.indexFromPos( startCursor ) + pre.length
+								),
+								codeMirror.posFromIndex(
+									codeMirror.indexFromPos( startCursor ) +
+									pre.length + selText.length
+								)
+							);
 						}
 					} );
 				},
 
-				/**
+				/*
 				 * Get the position (in resolution of bytes not necessarily characters)
 				 * in a textarea
 				 */
@@ -181,11 +188,14 @@ if ( !String.prototype.includes ) {
 
 				setSelection: function( options ) {
 					return this.each( function() {
-						codeMirror.setSelection( codeMirror.posFromIndex( options.start ), codeMirror.posFromIndex( options.end ) );
+						codeMirror.setSelection(
+							codeMirror.posFromIndex( options.start ),
+							codeMirror.posFromIndex( options.end )
+						);
 					} );
 				},
 
-				/**
+				/*
 				 * Scroll a textarea to the current cursor position. You can set the cursor
 				 * position with setSelection()
 				 */
@@ -202,15 +212,25 @@ if ( !String.prototype.includes ) {
 				// case 'getSelection': // no params
 				case 'encapsulateSelection':
 					options = $.extend( {
-						pre: '', // Text to insert before the cursor/selection
-						peri: '', // Text to insert between pre and post and select afterwards
-						post: '', // Text to insert after the cursor/selection
-						ownline: false, // Put the inserted text on a line of its own
-						replace: false, // If there is a selection, replace it with peri instead of leaving it alone
-						selectPeri: true, // Select the peri text if it was inserted (but not if there was a selection and replace==false, or if splitlines==true)
-						splitlines: false, // If multiple lines are selected, encapsulate each line individually
-						selectionStart: undefined, // Position to start selection at
-						selectionEnd: undefined // Position to end selection at. Defaults to start
+						// Text to insert before the cursor/selection
+						pre: '',
+						// Text to insert between pre and post and select afterwards
+						peri: '',
+						// Text to insert after the cursor/selection
+						post: '',
+						// Put the inserted text on a line of its own
+						ownline: false,
+						// If there is a selection, replace it with peri instead of leaving it alone
+						replace: false,
+						// Select the peri text if it was inserted (but not if there was
+						// a selection and replace==false, or if splitlines==true)
+						selectPeri: true,
+						// If multiple lines are selected, encapsulate each line individually
+						splitlines: false,
+						// Position to start selection at
+						selectionStart: undefined,
+						// Position to end selection at. Defaults to start
+						selectionEnd: undefined
 					}, options );
 					break;
 				case 'getCaretPosition':
@@ -218,7 +238,8 @@ if ( !String.prototype.includes ) {
 						// Return [start, end] instead of just start
 						startAndEnd: false
 					}, options );
-					// FIXME: We may not need character position-based functions if we insert markers in the right places
+					// FIXME: We may not need character position-based functions
+					// if we insert markers in the right places
 					break;
 				case 'setSelection':
 					options = $.extend( {
@@ -238,7 +259,8 @@ if ( !String.prototype.includes ) {
 					if ( options.endContainer === undefined ) {
 						options.endContainer = options.startContainer;
 					}
-					// FIXME: We may not need character position-based functions if we insert markers in the right places
+					// FIXME: We may not need character position-based
+					// functions if we insert markers in the right places
 					break;
 				case 'scrollToCaretPosition':
 					options = $.extend( {
@@ -259,9 +281,9 @@ if ( !String.prototype.includes ) {
 	 */
 	function enableCodeMirror() {
 		var config = mw.config.get( 'LPCodeMirrorConfig' );
-		var textbox1 = $( '#wpTextbox1' );
+		var $textbox1 = $( '#wpTextbox1' );
 
-		if ( textbox1[ 0 ].style.display === 'none' ) {
+		if ( $textbox1[ 0 ].style.display === 'none' ) {
 			return;
 		}
 		var editmode;
@@ -280,8 +302,9 @@ if ( !String.prototype.includes ) {
 			editmode = 'text/mediawiki';
 			indentmode = false;
 		}
-		var linewrapping = mw.user.options.get( 'lpcodemirror-prefs-use-codemirror-linewrap' ) === '1' || mw.user.options.get( 'lpcodemirror-prefs-use-codemirror-linewrap' ) === 1;
-		codeMirror = CodeMirror.fromTextArea( textbox1[ 0 ], {
+		var linewrapping = mw.user.options.get( 'lpcodemirror-prefs-use-codemirror-linewrap' ) === '1' ||
+			mw.user.options.get( 'lpcodemirror-prefs-use-codemirror-linewrap' ) === 1;
+		codeMirror = CodeMirror.fromTextArea( $textbox1[ 0 ], {
 			mwConfig: config,
 			lineNumbers: true,
 			mode: editmode,
@@ -291,16 +314,16 @@ if ( !String.prototype.includes ) {
 			viewportMargin: 5000,
 			indentWithTabs: indentmode,
 			extraKeys: {
-				"F11": function( cm ) {
-					cm.setOption( "fullScreen", !cm.getOption( "fullScreen" ) );
+				F11: function( cm ) {
+					cm.setOption( 'fullScreen', !cm.getOption( 'fullScreen' ) );
 				},
-				"Esc": function( cm ) {
-					if ( cm.getOption( "fullScreen" ) ) {
-						cm.setOption( "fullScreen", false );
+				Esc: function( cm ) {
+					if ( cm.getOption( 'fullScreen' ) ) {
+						cm.setOption( 'fullScreen', false );
 					}
 				}
 			},
-			readOnly: textbox1[ 0 ].readOnly,
+			readOnly: $textbox1[ 0 ].readOnly,
 			lineWrapping: linewrapping,
 			styleActiveLine: true
 		} );
@@ -313,7 +336,7 @@ if ( !String.prototype.includes ) {
 		}
 
 		// set the height of the textarea
-		codeMirror.setSize( null, textbox1.height() );
+		codeMirror.setSize( null, $textbox1.height() );
 		// Overwrite default textselection of WikiEditor to work with CodeMirror, too
 		$.fn.textSelection = cmTextSelection;
 
@@ -372,7 +395,8 @@ if ( !String.prototype.includes ) {
 		mw.hook( 'wikipage.editform' ).add( function() {
 			enableCodeMirror();
 
-			// define JQuery hook for searching and replacing text using JS if CodeMirror is enabled, see Bug: T108711
+			// define JQuery hook for searching and replacing text using
+			// JS if CodeMirror is enabled, see Bug: T108711
 			$.valHooks.textarea = {
 				get: function( elem ) {
 					if ( elem.id === 'wpTextbox1' && codeMirror ) {
