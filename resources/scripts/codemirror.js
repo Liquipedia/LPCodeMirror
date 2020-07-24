@@ -288,14 +288,17 @@ if ( !String.prototype.includes ) {
 		}
 		var editmode;
 		var indentmode;
-		var locationStr = window.location.href;
-		if ( ( locationStr.endsWith( '.js' ) ) || ( locationStr.includes( '.js&' ) ) ) {
+		var pageContentModel = mw.config.get( 'wgPageContentModel' );
+		if ( pageContentModel === 'wikitext' ) {
+			editmode = 'text/mediawiki';
+			indentmode = true;
+		} else if ( pageContentModel === 'javascript' ) {
 			editmode = 'text/javascript';
 			indentmode = true;
-		} else if ( ( locationStr.endsWith( '.css' ) ) || ( locationStr.includes( '.css&' ) ) ) {
+		} else if ( pageContentModel === 'css' ) {
 			editmode = 'text/css';
 			indentmode = true;
-		} else if ( locationStr.includes( '/index.php?title=Module:' ) ) {
+		} else if ( pageContentModel === 'Scribunto' ) {
 			editmode = 'text/x-lua';
 			indentmode = true;
 		} else {
