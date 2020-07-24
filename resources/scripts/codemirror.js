@@ -292,14 +292,14 @@ if ( !String.prototype.includes ) {
 		if ( pageContentModel === 'wikitext' ) {
 			editmode = 'text/mediawiki';
 			indentmode = true;
-		} else if ( pageContentModel === 'javascript' ) {
-			editmode = 'text/javascript';
+		} else if ( pageContentModel === 'Scribunto' ) {
+			editmode = 'text/x-lua';
 			indentmode = true;
 		} else if ( pageContentModel === 'css' ) {
 			editmode = 'text/css';
 			indentmode = true;
-		} else if ( pageContentModel === 'Scribunto' ) {
-			editmode = 'text/x-lua';
+		} else if ( pageContentModel === 'javascript' ) {
+			editmode = 'text/javascript';
 			indentmode = true;
 		} else {
 			editmode = 'text/mediawiki';
