@@ -163,12 +163,12 @@ if ( !String.prototype.includes ) {
 							codeMirror.setSelection(
 								codeMirror.posFromIndex(
 									codeMirror.indexFromPos( startCursor ) + pre.length
-								),
+									),
 								codeMirror.posFromIndex(
 									codeMirror.indexFromPos( startCursor ) +
 									pre.length + selText.length
-								)
-							);
+									)
+								);
 						}
 					} );
 				},
@@ -191,7 +191,7 @@ if ( !String.prototype.includes ) {
 						codeMirror.setSelection(
 							codeMirror.posFromIndex( options.start ),
 							codeMirror.posFromIndex( options.end )
-						);
+							);
 					} );
 				},
 
@@ -296,7 +296,7 @@ if ( !String.prototype.includes ) {
 			editmode = 'text/x-lua';
 			indentmode = true;
 		} else if ( pageContentModel === 'css' ) {
-			editmode = 'text/css';
+			editmode = 'text/x-less';
 			indentmode = true;
 		} else if ( pageContentModel === 'javascript' ) {
 			editmode = 'text/javascript';
