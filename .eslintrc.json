@@ -19,6 +19,7 @@
 		"one-var": "off",
 		"no-restricted-properties": "off",
 		"no-restricted-syntax": "off",
-		"no-extend-native": "off"
+		"no-extend-native": "off",
+		"no-shadow": "off"
 	}
 }
