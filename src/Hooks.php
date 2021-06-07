@@ -62,23 +62,19 @@ class Hooks {
 		// $lang = MediaWikiServices::getInstance()->getContentLanguage();
 		$registry = ExtensionRegistry::getInstance();
 		$parser = MediaWikiServices::getInstance()->getParser();
-		if ( !isset( $parser->mFunctionSynonyms ) ) {
-			$parser->initialiseVariables();
-			$parser->firstCallInit();
-		}
 		// initialize configuration
 		$config = [
 			'pluginModules' => $registry->getAttribute( 'CodeMirrorPluginModules' ),
 			'tagModes' => $registry->getAttribute( 'CodeMirrorTagModes' ),
 			'tags' => array_fill_keys( $parser->getTags(), true ),
 			'doubleUnderscore' => [ [], [] ],
-			'functionSynonyms' => $parser->mFunctionSynonyms,
-			'urlProtocols' => $parser->mUrlProtocols,
+			'functionSynonyms' => $parser->getFunctionSynonyms(),
+			'urlProtocols' => $parser->getUrlProtocols(),
 			'linkTrailCharacters' => $lang->linkTrail(),
 		];
 		$mw = $lang->getMagicWords();
-		// $magicWordFactory = $parser->getMagicWordFactory();
-		foreach ( MagicWord::getDoubleUnderscoreArray()->names as $name ) {
+		$magicWordFactory = $parser->getMagicWordFactory();
+		foreach ( $magicWordFactory->getDoubleUnderscoreArray()->getNames() as $name ) {
 			if ( isset( $mw[ $name ] ) ) {
 				$caseSensitive = array_shift( $mw[ $name ] ) == 0 ? 0 : 1;
 				foreach ( $mw[ $name ] as $n ) {
@@ -89,7 +85,7 @@ class Hooks {
 				$config[ 'doubleUnderscore' ][ 0 ][] = $name;
 			}
 		}
-		foreach ( MagicWord::getVariableIDs() as $name ) {
+		foreach ( $magicWordFactory->getVariableIDs() as $name ) {
 			if ( isset( $mw[ $name ] ) ) {
 				$caseSensitive = array_shift( $mw[ $name ] ) == 0 ? 0 : 1;
 				foreach ( $mw[ $name ] as $n ) {
