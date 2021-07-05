@@ -56,3 +56,7 @@
 	white-space: pre-wrap;
 	word-break: normal;
 }
+
+.wikiEditor-ui-toolbar .group .tool-select .options {
+	z-index:100 !important;
+}
