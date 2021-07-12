@@ -3,7 +3,6 @@
 namespace Liquipedia\LPCodeMirror;
 
 use ExtensionRegistry;
-use MagicWord;
 use MediaWiki\MediaWikiServices;
 use OutputPage;
 use Skin;
