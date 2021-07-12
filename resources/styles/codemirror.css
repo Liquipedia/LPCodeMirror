@@ -58,5 +58,6 @@
 }
 
 .wikiEditor-ui-toolbar .group .tool-select .options {
-	z-index:100 !important;
+	/* stylelint-disable-next-line declaration-no-important */
+	z-index: 100 !important;
 }
