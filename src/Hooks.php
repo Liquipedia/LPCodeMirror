@@ -62,10 +62,12 @@ class Hooks {
 		$registry = ExtensionRegistry::getInstance();
 		$parser = MediaWikiServices::getInstance()->getParser();
 		// initialize configuration
+		$tags = array_fill_keys( $parser->getTags(), true );
+		unset( $tags[ 'ref' ] );
 		$config = [
 			'pluginModules' => $registry->getAttribute( 'CodeMirrorPluginModules' ),
 			'tagModes' => $registry->getAttribute( 'CodeMirrorTagModes' ),
-			'tags' => array_fill_keys( $parser->getTags(), true ),
+			'tags' => $tags,
 			'doubleUnderscore' => [ [], [] ],
 			'functionSynonyms' => $parser->getFunctionSynonyms(),
 			'urlProtocols' => $parser->getUrlProtocols(),
