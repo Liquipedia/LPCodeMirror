@@ -36,7 +36,7 @@ if ( !String.prototype.includes ) {
  * License: GPL 2.0 or later
  */
 
-( function( mw, $ ) {
+( function( mw, window, $ ) {
 	if ( mw.config.get( 'wgCodeEditorCurrentLanguage' ) ) { // If the CodeEditor is used then just exit;
 		return;
 	}
@@ -385,6 +385,14 @@ if ( !String.prototype.includes ) {
 				openPageOnClick( 'cm-mw-link-pagename', $( this ) );
 			}
 		} );
+
+		// Jump to correct line number if appropriate hash is given (`#mw-ce-l42`)
+		var hashRegex = /#mw\-ce\-l(?<linenumber>[0-9]+)/;
+		if ( hashRegex.test( window.location.hash ) ) {
+			var result = window.location.hash.match( hashRegex );
+			var lineNumber = parseInt( result.groups.linenumber );
+			codeMirror.setCursor( lineNumber );
+		}
 	}
 
 	// enable CodeMirror
@@ -421,4 +429,4 @@ if ( !String.prototype.includes ) {
 			};
 		} );
 	}
-}( mw, jQuery ) );
+}( mw, window, jQuery ) );
