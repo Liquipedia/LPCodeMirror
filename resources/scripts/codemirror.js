@@ -391,7 +391,7 @@ if ( !String.prototype.includes ) {
 		if ( hashRegex.test( window.location.hash ) ) {
 			var result = window.location.hash.match( hashRegex );
 			var lineNumber = parseInt( result.groups.linenumber );
-			codeMirror.setCursor( lineNumber );
+			codeMirror.setCursor( lineNumber, 0 );
 		}
 	}
 
