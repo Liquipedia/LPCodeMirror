@@ -390,7 +390,7 @@ if ( !String.prototype.includes ) {
 		var hashRegex = /#mw\-ce\-l(?<linenumber>[0-9]+)/;
 		if ( hashRegex.test( window.location.hash ) ) {
 			var result = window.location.hash.match( hashRegex );
-			var lineNumber = parseInt( result.groups.linenumber );
+			var lineNumber = parseInt( result.groups.linenumber ) - 1;
 			codeMirror.setCursor( lineNumber, 0 );
 		}
 	}
