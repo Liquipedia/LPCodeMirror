@@ -387,7 +387,8 @@ if ( !String.prototype.includes ) {
 		} );
 
 		// Jump to correct line number if appropriate hash is given (`#mw-ce-l42`)
-		var hashRegex = /#mw\-ce\-l(?<linenumber>[0-9]+)/;
+		// eslint-disable-next-line prefer-regex-literals
+		var hashRegex = new RegExp( '#mw-ce-l(?<linenumber>[0-9]+)' );
 		if ( hashRegex.test( window.location.hash ) ) {
 			var result = window.location.hash.match( hashRegex );
 			var lineNumber = parseInt( result.groups.linenumber ) - 1;
