@@ -340,7 +340,8 @@ if ( !String.prototype.includes ) {
 		}
 
 		// set the height of the textarea
-		codeMirror.setSize( null, $textbox1.height() );
+		var editorHeight = $textbox1.height();
+		codeMirror.setSize( null, editorHeight );
 		// Overwrite default textselection of WikiEditor to work with CodeMirror, too
 		$.fn.textSelection = cmTextSelection;
 
@@ -392,7 +393,9 @@ if ( !String.prototype.includes ) {
 		if ( hashRegex.test( window.location.hash ) ) {
 			var result = window.location.hash.match( hashRegex );
 			var lineNumber = parseInt( result.groups.linenumber ) - 1;
-			codeMirror.setCursor( lineNumber, 0 );
+			var target = { line: lineNumber, ch: 0 };
+			codeMirror.setCursor( target );
+			codeMirror.scrollIntoView( target, parseInt( editorHeight ) / 2 );
 		}
 	}
 
