@@ -36,7 +36,7 @@ if ( !String.prototype.includes ) {
  * License: GPL 2.0 or later
  */
 
-( function( mw, window, $ ) {
+( function( mw, window, document, $ ) {
 	if ( mw.config.get( 'wgCodeEditorCurrentLanguage' ) ) { // If the CodeEditor is used then just exit;
 		return;
 	}
@@ -450,4 +450,4 @@ if ( !String.prototype.includes ) {
 			};
 		} );
 	}
-}( mw, window, jQuery ) );
+}( mw, window, document, jQuery ) );
