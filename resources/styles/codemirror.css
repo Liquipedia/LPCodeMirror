@@ -61,3 +61,7 @@
 	/* stylelint-disable-next-line declaration-no-important */
 	z-index: 100 !important;
 }
+
+.CodeMirror-linenumber {
+	cursor: pointer;
+}

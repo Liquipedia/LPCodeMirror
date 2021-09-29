@@ -163,12 +163,12 @@ if ( !String.prototype.includes ) {
 							codeMirror.setSelection(
 								codeMirror.posFromIndex(
 									codeMirror.indexFromPos( startCursor ) + pre.length
-								),
+									),
 								codeMirror.posFromIndex(
 									codeMirror.indexFromPos( startCursor ) +
 									pre.length + selText.length
-								)
-							);
+									)
+								);
 						}
 					} );
 				},
@@ -191,7 +191,7 @@ if ( !String.prototype.includes ) {
 						codeMirror.setSelection(
 							codeMirror.posFromIndex( options.start ),
 							codeMirror.posFromIndex( options.end )
-						);
+							);
 					} );
 				},
 
@@ -388,15 +388,32 @@ if ( !String.prototype.includes ) {
 		} );
 
 		// Jump to correct line number if appropriate hash is given (`#mw-ce-l42`)
-		// eslint-disable-next-line prefer-regex-literals
-		var hashRegex = new RegExp( '#mw-ce-l(?<linenumber>[0-9]+)' );
-		if ( hashRegex.test( window.location.hash ) ) {
-			var result = window.location.hash.match( hashRegex );
-			var lineNumber = parseInt( result.groups.linenumber ) - 1;
-			var target = { line: lineNumber, ch: 0 };
-			codeMirror.setCursor( target );
-			codeMirror.scrollIntoView( target, parseInt( editorHeight ) / 2 );
+		var magicHashPrefix = '#mw-ce-l';
+		function attemptLineChangeOnHash() {
+			var hashRegex = new RegExp( '^' + magicHashPrefix + '(?<linenumber>[0-9]+)$' );
+			if ( hashRegex.test( window.location.hash ) ) {
+				var result = window.location.hash.match( hashRegex );
+				var lineNumber = parseInt( result.groups.linenumber ) - 1;
+				var target = { line: lineNumber, ch: 0 };
+				codeMirror.setCursor( target );
+				codeMirror.scrollIntoView( target, parseInt( editorHeight ) / 2 );
+			}
 		}
+
+		attemptLineChangeOnHash();
+
+		window.addEventListener( 'hashchange', function() {
+			attemptLineChangeOnHash();
+		} );
+
+		document.querySelectorAll( '.CodeMirror' ).forEach( function( el ) {
+			el.addEventListener( 'click', function( ev ) {
+				var targetElement = ev.target;
+				if ( targetElement.classList.contains( 'CodeMirror-linenumber' ) ) {
+					window.location.hash = magicHashPrefix + targetElement.innerHTML;
+				}
+			} );
+		} );
 	}
 
 	// enable CodeMirror
