@@ -1,6 +1,6 @@
 {
 	"name": "LPCodeMirror",
-	"version": "1.2.0",
+	"version": "1.3.0",
 	"author": [
 		"[https://fo-nttax.de Alex Winkler]"
 	],
@@ -17,18 +17,17 @@
 		]
 	},
 	"AutoloadNamespaces": {
-		"Liquipedia\\LPCodeMirror\\": "src/"
+		"Liquipedia\\Extension\\LPCodeMirror\\": "src/"
+	},
+	"HookHandlers": {
+		"Main": {
+			"class": "\\Liquipedia\\Extension\\LPCodeMirror\\Hooks\\MainHookHandler"
+		}
 	},
 	"Hooks": {
-		"BeforePageDisplay": [
-			"Liquipedia\\LPCodeMirror\\Hooks::onBeforePageDisplay"
-		],
-		"GetPreferences": [
-			"Liquipedia\\LPCodeMirror\\Hooks::onGetPreferences"
-		],
-		"MakeGlobalVariablesScript": [
-			"Liquipedia\\LPCodeMirror\\Hooks::onMakeGlobalVariablesScript"
-		]
+		"BeforePageDisplay": "Main",
+		"GetPreferences": "Main",
+		"MakeGlobalVariablesScript": "Main"
 	},
 	"ResourceModules": {
 		"ext.LPCodeMirror.codemirror": {
@@ -68,5 +67,5 @@
 		"localBasePath": "",
 		"remoteExtPath": "LPCodeMirror"
 	},
-	"manifest_version": 1
+	"manifest_version": 2
 }

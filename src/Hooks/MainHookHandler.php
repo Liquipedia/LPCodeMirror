@@ -1,19 +1,41 @@
 <?php
 
-namespace Liquipedia\LPCodeMirror;
+namespace Liquipedia\Extension\LPCodeMirror\Hooks;
 
 use ExtensionRegistry;
+use Language;
+use MediaWiki\Hook\BeforePageDisplayHook;
+use MediaWiki\Hook\MakeGlobalVariablesScriptHook;
 use MediaWiki\MediaWikiServices;
+use MediaWiki\Preferences\Hook\GetPreferencesHook;
 use OutputPage;
 use Skin;
+use User;
 
-class Hooks {
+class MainHookHandler implements
+	BeforePageDisplayHook,
+	GetPreferencesHook,
+	MakeGlobalVariablesScriptHook
+{
+
+	/**
+	 * @param OutputPage $out
+	 * @param Skin $skin
+	 */
+	public function onBeforePageDisplay( $out, $skin ): void {
+		if (
+			$skin->getUser()->getOption( 'lpcodemirror-prefs-use-codemirror' ) == true
+			&& in_array( $out->getContext()->getRequest()->getText( 'action' ), [ 'edit', 'submit' ] )
+		) {
+			$out->addModules( 'ext.LPCodeMirror.codemirror' );
+		}
+	}
 
 	/**
 	 * @param User $user
 	 * @param array &$preferences
 	 */
-	public static function onGetPreferences( $user, &$preferences ) {
+	public function onGetPreferences( $user, &$preferences ) {
 		// CodeMirror settings
 		$preferences[ 'lpcodemirror-prefs-use-codemirror-phone' ] = [
 			'type' => 'check',
@@ -41,13 +63,13 @@ class Hooks {
 	 * @param array &$vars
 	 * @param OutputPage $out
 	 */
-	public static function onMakeGlobalVariablesScript( array &$vars, OutputPage $out ) {
+	public function onMakeGlobalVariablesScript( &$vars, $out ): void {
 		$context = $out->getContext();
 		// add CodeMirror vars only for edit pages
 		if ( in_array( $context->getRequest()->getText( 'action' ), [ 'edit', 'submit' ] ) ) {
 			// initialize global vars
 			$vars += [
-				'LPCodeMirrorConfig' => self::getFrontendConfiguraton( $context->getLanguage() ),
+				'LPCodeMirrorConfig' => $this->getFrontendConfiguraton( $context->getLanguage() ),
 			];
 		}
 	}
@@ -56,7 +78,7 @@ class Hooks {
 	 * @param Language $lang
 	 * @return array
 	 */
-	private static function getFrontendConfiguraton( $lang ) {
+	private function getFrontendConfiguraton( $lang ) {
 		// Use the content language, not the user language. (See T170130.)
 		// $lang = MediaWikiServices::getInstance()->getContentLanguage();
 		$registry = ExtensionRegistry::getInstance();
@@ -96,19 +118,6 @@ class Hooks {
 			}
 		}
 		return $config;
-	}
-
-	/**
-	 * @param OutputPage &$out
-	 * @param Skin &$skin
-	 */
-	public static function onBeforePageDisplay( OutputPage &$out, Skin &$skin ) {
-		if (
-			$skin->getUser()->getOption( 'lpcodemirror-prefs-use-codemirror' ) == true
-			&& in_array( $out->getContext()->getRequest()->getText( 'action' ), [ 'edit', 'submit' ] )
-		) {
-			$out->addModules( 'ext.LPCodeMirror.codemirror' );
-		}
 	}
 
 }
