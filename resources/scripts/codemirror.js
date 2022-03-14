@@ -1,7 +1,7 @@
 if ( !String.prototype.startsWith ) {
 	String.prototype.startsWith = function( searchString, position ) {
 		position = position || 0;
-		return this.substr( position, searchString.length ) === searchString;
+		return this.slice( position, position + searchString.length ) === searchString;
 	};
 }
 
@@ -63,11 +63,12 @@ if ( !String.prototype.includes ) {
 				 * Get the contents of the textarea
 				 */
 				getContents: function() {
-					return codeMirror.getValue();
+					return codeMirror.doc.getValue();
 				},
 
 				setContents: function( newContents ) {
-					codeMirror.setValue( newContents );
+					codeMirror.doc.setValue( newContents );
+					return this;
 				},
 
 				/*
@@ -75,7 +76,7 @@ if ( !String.prototype.includes ) {
 				 * in some browsers (IE/Opera)
 				 */
 				getSelection: function() {
-					return codeMirror.getSelection();
+					return codeMirror.doc.getSelection();
 				},
 
 				/*
@@ -83,94 +84,92 @@ if ( !String.prototype.includes ) {
 				 * inserting text at the caret when selection is empty.
 				 */
 				encapsulateSelection: function( options ) {
-					return this.each( function() {
-						var insertText,
-							selText,
-							selectPeri = options.selectPeri,
-							pre = options.pre,
-							post = options.post,
-							startCursor = codeMirror.getCursor( true ),
-							endCursor = codeMirror.getCursor( false );
+					var insertText,
+						selText,
+						selectPeri = options.selectPeri,
+						pre = options.pre,
+						post = options.post,
+						startCursor = codeMirror.getCursor( true ),
+						endCursor = codeMirror.getCursor( false );
 
-						if ( options.selectionStart !== undefined ) {
-							// fn[command].call( this, options );
-							fn.setSelection(
-								{ start: options.selectionStart, end: options.selectionEnd }
-							); // not tested
+					if ( options.selectionStart !== undefined ) {
+						// fn[command].call( this, options );
+						fn.setSelection(
+							{ start: options.selectionStart, end: options.selectionEnd }
+						); // not tested
+					}
+
+					selText = codeMirror.getSelection();
+					if ( !selText ) {
+						selText = options.peri;
+					} else if ( options.replace ) {
+						selectPeri = false;
+						selText = options.peri;
+					} else {
+						selectPeri = false;
+						while ( selText.charAt( selText.length - 1 ) === ' ' ) {
+							// Exclude ending space char
+							selText = selText.slice( 0, selText.length - 1 );
+							post += ' ';
 						}
-
-						selText = codeMirror.getSelection();
-						if ( !selText ) {
-							selText = options.peri;
-						} else if ( options.replace ) {
-							selectPeri = false;
-							selText = options.peri;
-						} else {
-							selectPeri = false;
-							while ( selText.charAt( selText.length - 1 ) === ' ' ) {
-								// Exclude ending space char
-								selText = selText.substring( 0, selText.length - 1 );
-								post += ' ';
-							}
-							while ( selText.charAt( 0 ) === ' ' ) {
-								// Exclude prepending space char
-								selText = selText.substring( 1, selText.length );
-								pre = ' ' + pre;
-							}
+						while ( selText.charAt( 0 ) === ' ' ) {
+							// Exclude prepending space char
+							selText = selText.slice( 1, selText.length );
+							pre = ' ' + pre;
 						}
+					}
 
-						/*
-						 * Do the splitlines stuff.
-						 *
-						 * Wrap each line of the selected text with pre and post
-						 */
-						function doSplitLines( selText, pre, post ) {
-							var i,
-								insertText = '',
-								selTextArr = selText.split( '\n' );
+					/*
+					 * Do the splitlines stuff.
+					 *
+					 * Wrap each line of the selected text with pre and post
+					 */
+					function doSplitLines( selText, pre, post ) {
+						var i,
+							insertText = '',
+							selTextArr = selText.split( '\n' );
 
-							for ( i = 0; i < selTextArr.length; i++ ) {
-								insertText += pre + selTextArr[ i ] + post;
-								if ( i !== selTextArr.length - 1 ) {
-									insertText += '\n';
-								}
-							}
-							return insertText;
-						}
-
-						if ( options.splitlines ) {
-							selectPeri = false;
-							insertText = doSplitLines( selText, pre, post );
-						} else {
-							insertText = pre + selText + post;
-						}
-
-						if ( options.ownline ) {
-							if ( startCursor.ch !== 0 ) {
-								insertText = '\n' + insertText;
-								pre += '\n';
-							}
-
-							if ( codeMirror.getLine( endCursor.line ).length !== endCursor.ch ) {
+						for ( i = 0; i < selTextArr.length; i++ ) {
+							insertText += pre + selTextArr[ i ] + post;
+							if ( i !== selTextArr.length - 1 ) {
 								insertText += '\n';
-								post += '\n';
 							}
 						}
+						return insertText;
+					}
 
-						codeMirror.replaceSelection( insertText );
+					if ( options.splitlines ) {
+						selectPeri = false;
+						insertText = doSplitLines( selText, pre, post );
+					} else {
+						insertText = pre + selText + post;
+					}
 
-						if ( selectPeri ) {
-							codeMirror.setSelection(
-								codeMirror.posFromIndex(
-									codeMirror.indexFromPos( startCursor ) + pre.length
-								),
-								codeMirror.posFromIndex(
-									codeMirror.indexFromPos( startCursor ) +
-									pre.length + selText.length
-								)
-							);
+					if ( options.ownline ) {
+						if ( startCursor.ch !== 0 ) {
+							insertText = '\n' + insertText;
+							pre += '\n';
 						}
-					} );
+
+						if ( codeMirror.doc.getLine( endCursor.line ).length !== endCursor.ch ) {
+							insertText += '\n';
+							post += '\n';
+						}
+					}
+
+					codeMirror.doc.replaceSelection( insertText );
+
+					if ( selectPeri ) {
+						codeMirror.doc.setSelection(
+							codeMirror.doc.posFromIndex(
+								codeMirror.doc.indexFromPos( startCursor ) + pre.length
+							),
+							codeMirror.doc.posFromIndex(
+								codeMirror.doc.indexFromPos( startCursor ) +
+								pre.length + selText.length
+							)
+						);
+					}
 				},
 
 				/*
@@ -178,8 +177,8 @@ if ( !String.prototype.includes ) {
 				 * in a textarea
 				 */
 				getCaretPosition: function( options ) {
-					var caretPos = codeMirror.indexFromPos( codeMirror.getCursor( true ) ),
-						endPos = codeMirror.indexFromPos( codeMirror.getCursor( false ) );
+					var caretPos = codeMirror.doc.indexFromPos( codeMirror.doc.getCursor( true ) ),
+						endPos = codeMirror.doc.indexFromPos( codeMirror.doc.getCursor( false ) );
 					if ( options.startAndEnd ) {
 						return [ caretPos, endPos ];
 					}
@@ -187,12 +186,12 @@ if ( !String.prototype.includes ) {
 				},
 
 				setSelection: function( options ) {
-					return this.each( function() {
-						codeMirror.setSelection(
-							codeMirror.posFromIndex( options.start ),
-							codeMirror.posFromIndex( options.end )
-						);
-					} );
+					codeMirror.focus();
+					codeMirror.doc.setSelection(
+						codeMirror.doc.posFromIndex( options.start ),
+						codeMirror.doc.posFromIndex( options.end )
+					);
+					return this;
 				},
 
 				/*
@@ -200,9 +199,8 @@ if ( !String.prototype.includes ) {
 				 * position with setSelection()
 				 */
 				scrollToCaretPosition: function() {
-					return this.each( function() {
-						codeMirror.scrollIntoView( null );
-					} );
+					codeMirror.scrollIntoView( null );
+					return this;
 				}
 			};
 
@@ -362,11 +360,11 @@ if ( !String.prototype.includes ) {
 				counter++;
 			}
 
-			pagename = pagename.substr( 0, 1 ).toUpperCase() + pagename.substr( 1 );
+			pagename = pagename.slice( 0, 1 ).toUpperCase() + pagename.slice( 1 );
 
 			if ( cssClass === 'cm-mw-template-name' ) {
 				if ( pagename.startsWith( ':' ) ) {
-					pagename = pagename.substr( 1 );
+					pagename = pagename.slice( 1 );
 				} else if ( !pagename.includes( ':' ) ) {
 					pagename = 'Template:' + pagename;
 				}
@@ -433,7 +431,7 @@ if ( !String.prototype.includes ) {
 			$.valHooks.textarea = {
 				get: function( elem ) {
 					if ( elem.id === 'wpTextbox1' && codeMirror ) {
-						return codeMirror.getValue();
+						return codeMirror.doc.getValue();
 					} else if ( originHooksTextarea ) {
 						return originHooksTextarea.get( elem );
 					}
@@ -441,7 +439,7 @@ if ( !String.prototype.includes ) {
 				},
 				set: function( elem, value ) {
 					if ( elem.id === 'wpTextbox1' && codeMirror ) {
-						return codeMirror.setValue( value );
+						return codeMirror.doc.setValue( value );
 					} else if ( originHooksTextarea ) {
 						return originHooksTextarea.set( elem, value );
 					}
