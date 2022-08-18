@@ -2,6 +2,55 @@
 	block-closing-brace-space-after, declaration-block-single-line-max-declarations,
 	declaration-block-semicolon-newline-after, selector-list-comma-newline-after */
 
+.skin-lakesideview div.wikiEditor-ui .wikiEditor-ui-view {
+    border: 0;
+}
+
+.skin-lakesideview div.wikiEditor-ui-toolbar {
+    background-color: var( --clr-surface-4 );
+    color: var( --clr-on-surface );
+}
+
+.skin-lakesideview .CodeMirror {
+    background-color: var( --clr-surface );
+    color: var( --clr-on-surface );
+}
+
+.skin-lakesideview .CodeMirror-linenumber {
+    color: var( --clr-on-surface );
+}
+
+.skin-lakesideview .CodeMirror-gutters {
+    background-color: var( --clr-surface-1 );
+}
+
+.skin-lakesideview .CodeMirror-activeline-background {
+    background-color: var( --clr-surface-1 );
+}
+
+/* Overwrite classes from codemirror.css */
+.theme--dark .cm-mw-template-name {
+    color: #FF871F;
+}
+
+.theme--dark .cm-mw-template-bracket {
+    color: #FF75FF;
+}
+
+.theme--dark .cm-mw-template-argument-name {
+    color: #FF8585;
+}
+
+.theme--dark .cm-mw-template {
+    color: #58B0EE;
+}
+
+.theme--dark .cm-mw-template-delimiter {
+    color: #95A0F3;
+}
+
+/* End overwrite classes from codemirror.css */
+
 .cm-mw-pagename { text-decoration: underline; }
 
 .cm-mw-matching { background-color: #ffd700; }
@@ -29,15 +78,41 @@ pre.cm-mw-section-6 { font-weight: bold; }
 .cm-mw-template-delimiter { color: #80c; font-weight: bold; }
 .cm-mw-template-bracket { color: #80c; font-weight: bold; }
 
+/* Orange links */
+.theme--dark .cm-mw-templatevariable,
+.theme--dark .cm-mw-templatevariable-name,
+.theme--dark .cm-mw-templatevariable-bracket,
+.theme--dark .cm-mw-templatevariable-delimiter {
+    color: #FF871F;
+}
+
 .cm-mw-templatevariable { color: #f50; font-weight: normal; }
 .cm-mw-templatevariable-name { color: #f50; font-weight: bold; }
 .cm-mw-templatevariable-bracket { color: #f50; font-weight: normal; }
 .cm-mw-templatevariable-delimiter { color: #f50; font-weight: bold; }
 
+/* Red links */
+.theme--dark .cm-mw-parserfunction-name,
+.theme--dark .cm-mw-parserfunction-bracket,
+.theme--dark .cm-mw-parserfunction-delimiter {
+    color: #FF8585;
+}
+
 .cm-mw-parserfunction { font-weight: normal; }
 .cm-mw-parserfunction-name { color: #a11; font-weight: bold; }
 .cm-mw-parserfunction-bracket { color: #a11; font-weight: bold; }
 .cm-mw-parserfunction-delimiter { color: #a11; font-weight: bold; }
+
+
+/* Green links */
+.theme--dark .cm-mw-exttag-name,
+.theme--dark .cm-mw-exttag-bracket,
+.theme--dark .cm-mw-exttag-attribute,
+.theme--dark .cm-mw-htmltag-name,
+.theme--dark .cm-mw-htmltag-bracket,
+.theme--dark .cm-mw-htmltag-attribute {
+    color: #2CCC00;
+}
 
 pre.cm-mw-exttag { background-image: url( img/ext2.png ); }
 .cm-mw-exttag { background-image: url( img/ext4.png ); }
@@ -52,6 +127,21 @@ pre.cm-mw-exttag { background-image: url( img/ext2.png ); }
 pre.cm-mw-tag-pre, .cm-mw-tag-pre { background-image: url( img/black4.png ); }
 pre.cm-mw-tag-nowiki, .cm-mw-tag-nowiki { background-image: url( img/black4.png ); }
 
+/* Blue links */
+.theme--dark .cm-mw-link,
+.theme--dark .cm-mw-link-pagename,
+.theme--dark .cm-mw-link-bracket,
+.theme--dark .cm-mw-link-delimiter,
+.theme--dark .cm-mw-extlink, .theme--dark .cm-mw-free-extlink,
+.theme--dark .cm-mw-extlink-protocol, .theme--dark .cm-mw-free-extlink-protocol,
+.theme--dark .cm-mw-extlink-bracket {
+    color: #89A7E1;
+}
+
+.theme--dark .cm-mw-link-tosection {
+    color: #5DADF4;
+}
+
 .cm-mw-link { color: #36c; font-weight: normal; }
 .cm-mw-link-pagename { color: #36c; font-weight: normal; }
 .cm-mw-link-tosection { color: #18e; font-weight: normal; }
@@ -63,6 +153,13 @@ pre.cm-mw-tag-nowiki, .cm-mw-tag-nowiki { background-image: url( img/black4.png 
 .cm-mw-extlink-protocol, .cm-mw-free-extlink-protocol { color: #36c; font-weight: bold; }
 /* .cm-mw-extlink-text { } */
 .cm-mw-extlink-bracket { color: #36c; font-weight: bold; }
+
+/* Pink links */
+.theme--dark .cm-mw-table-bracket,
+.theme--dark .cm-mw-table-delimiter,
+.theme--dark .cm-mw-table-definition {
+    color: #FF75FF;
+}
 
 .cm-mw-table-bracket { color: #e0e; font-weight: bold; }
 .cm-mw-table-delimiter { color: #e0e; font-weight: bold; }
