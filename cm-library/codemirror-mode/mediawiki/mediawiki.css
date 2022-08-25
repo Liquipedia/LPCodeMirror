@@ -28,29 +28,6 @@
     background-color: var( --clr-surface-1 );
 }
 
-/* Overwrite classes from codemirror.css */
-.theme--dark .cm-mw-template-name {
-    color: #FF871F;
-}
-
-.theme--dark .cm-mw-template-bracket {
-    color: #FF75FF;
-}
-
-.theme--dark .cm-mw-template-argument-name {
-    color: #FF8585;
-}
-
-.theme--dark .cm-mw-template {
-    color: #58B0EE;
-}
-
-.theme--dark .cm-mw-template-delimiter {
-    color: #95A0F3;
-}
-
-/* End overwrite classes from codemirror.css */
-
 .cm-mw-pagename { text-decoration: underline; }
 
 .cm-mw-matching { background-color: #ffd700; }

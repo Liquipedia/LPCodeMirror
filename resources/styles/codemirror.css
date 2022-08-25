@@ -27,9 +27,17 @@
 	font-weight: bold;
 }
 
+.theme--dark .cm-mw-template-bracket {
+	color: #FF75FF;
+}
+
 .cm-mw-template-name {
 	color: #e66c00;
 	font-weight: bold;
+}
+
+.theme--dark .cm-mw-template-name {
+	color: #FF871F;
 }
 
 .cm-mw-template-delimiter {
@@ -37,14 +45,26 @@
 	font-weight: bold;
 }
 
+.theme--dark .cm-mw-template-delimiter {
+	color: #95A0F3;
+}
+
 .cm-mw-template-argument-name {
 	color: #ff0000;
 	font-weight: bold;
 }
 
+.theme--dark .cm-mw-template-argument-name {
+	color: #FF8585;
+}
+
 .cm-mw-template {
 	color: #1169aa;
 	font-weight: normal;
+}
+
+.theme--dark .cm-mw-template {
+	color: #58B0EE;
 }
 
 .wikiEditor-ui .options {
