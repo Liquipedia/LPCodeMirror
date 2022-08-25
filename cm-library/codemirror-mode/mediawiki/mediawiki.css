@@ -2,32 +2,6 @@
 	block-closing-brace-space-after, declaration-block-single-line-max-declarations,
 	declaration-block-semicolon-newline-after, selector-list-comma-newline-after */
 
-.skin-lakesideview div.wikiEditor-ui .wikiEditor-ui-view {
-    border: 0;
-}
-
-.skin-lakesideview div.wikiEditor-ui-toolbar {
-    background-color: var( --clr-surface-4 );
-    color: var( --clr-on-surface );
-}
-
-.skin-lakesideview .CodeMirror {
-    background-color: var( --clr-surface );
-    color: var( --clr-on-surface );
-}
-
-.skin-lakesideview .CodeMirror-linenumber {
-    color: var( --clr-on-surface );
-}
-
-.skin-lakesideview .CodeMirror-gutters {
-    background-color: var( --clr-surface-1 );
-}
-
-.skin-lakesideview .CodeMirror-activeline-background {
-    background-color: var( --clr-surface-1 );
-}
-
 .cm-mw-pagename { text-decoration: underline; }
 
 .cm-mw-matching { background-color: #ffd700; }

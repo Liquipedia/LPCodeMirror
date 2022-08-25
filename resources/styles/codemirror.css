@@ -6,6 +6,8 @@
 	height: 600px;
 	font-family: 'Source Code Pro', monospace;
 	font-size: 13px;
+	background-color: var( --clr-surface );
+	color: var( --clr-on-surface );
 }
 
 .cm-mw-htmltag-attribute {
@@ -28,7 +30,7 @@
 }
 
 .theme--dark .cm-mw-template-bracket {
-	color: #FF75FF;
+	color: #ff75ff;
 }
 
 .cm-mw-template-name {
@@ -37,7 +39,7 @@
 }
 
 .theme--dark .cm-mw-template-name {
-	color: #FF871F;
+	color: #ff871f;
 }
 
 .cm-mw-template-delimiter {
@@ -46,7 +48,7 @@
 }
 
 .theme--dark .cm-mw-template-delimiter {
-	color: #95A0F3;
+	color: #95a0f3;
 }
 
 .cm-mw-template-argument-name {
@@ -55,7 +57,7 @@
 }
 
 .theme--dark .cm-mw-template-argument-name {
-	color: #FF8585;
+	color: #ff8585;
 }
 
 .cm-mw-template {
@@ -64,11 +66,15 @@
 }
 
 .theme--dark .cm-mw-template {
-	color: #58B0EE;
+	color: #58b0ee;
 }
 
 .wikiEditor-ui .options {
 	z-index: 10000;
+}
+
+div.wikiEditor-ui .wikiEditor-ui-view {
+	border-color: var( --clr-border );
 }
 
 .CodeMirror.lineWrapping pre {
@@ -77,11 +83,25 @@
 	word-break: normal;
 }
 
-.wikiEditor-ui-toolbar .group .tool-select .options {
+div.wikiEditor-ui-toolbar {
+	background-color: var( --clr-surface-4 );
+	color: var( --clr-on-surface );
+}
+
+div.wikiEditor-ui-toolbar .group .tool-select .options {
 	/* stylelint-disable-next-line declaration-no-important */
 	z-index: 100 !important;
 }
 
+.CodeMirror-activeline-background {
+	background-color: var( --clr-surface-1 );
+}
+
 .CodeMirror-linenumber {
 	cursor: pointer;
+	color: var( --clr-on-surface );
+}
+
+.CodeMirror-gutters {
+	background-color: var( --clr-surface-1 );
 }
