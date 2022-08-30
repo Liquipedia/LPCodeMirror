@@ -20,6 +20,11 @@
 		"no-restricted-properties": "off",
 		"no-restricted-syntax": "off",
 		"no-extend-native": "off",
-		"no-shadow": "off"
+		"no-shadow": "off",
+		"es-x/no-string-prototype-startswith": "off",
+		"es-x/no-string-prototype-endswith": "off",
+		"es-x/no-string-prototype-includes": "off",
+		"es-x/no-array-prototype-includes": "off",
+		"mediawiki/no-nodelist-unsupported-methods": "off"
 	}
 }
