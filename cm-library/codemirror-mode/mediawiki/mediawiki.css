@@ -6,6 +6,14 @@
 
 .cm-mw-matching { background-color: #ffd700; }
 
+.theme--dark .cm-mw-skipformatting { background-color: #00568f }
+.theme--dark .cm-mw-list { color: #52aeff; }
+.theme--dark .cm-mw-doubleUnderscore, .cm-mw-signature, .cm-mw-hr { color: #52aeff; background-color: var( --clr-surface-5 ); }
+.theme--dark .cm-mw-indenting { color: #52aeff; }
+.theme--dark .cm-mw-mnemonic { color: #2ccc00; }
+.theme--dark .cm-mw-comment { color: #94adad; }
+.theme--dark .cm-mw-apostrophes-bold, .cm-mw-apostrophes-italic { color: #52aeff; }
+
 .cm-mw-skipformatting { background-color: #adf; }
 .cm-mw-list { color: #08f; font-weight: bold; }
 .cm-mw-doubleUnderscore, .cm-mw-signature, .cm-mw-hr { color: #08f; font-weight: bold; background-color: #eee; }
@@ -20,7 +28,19 @@ pre.cm-mw-section-3 { font-weight: bold; }
 pre.cm-mw-section-4 { font-weight: bold; }
 pre.cm-mw-section-5 { font-weight: bold; }
 pre.cm-mw-section-6 { font-weight: bold; }
+
+.theme--dark .cm-mw-section-header { color: #52aeff; }
+
 .cm-mw-section-header { color: #08f; font-weight: normal; }
+
+.theme--dark .cm-mw-template,
+.theme--dark .cm-mw-template-name,
+.theme--dark .cm-mw-template-name-mnemonic,
+.theme--dark .cm-mw-template-argument-name,
+.theme--dark .cm-mw-template-delimiter,
+.theme--dark .cm-mw-template-bracket {
+    color: #d685ff;
+}
 
 .cm-mw-template { color: #80c; font-weight: normal; }
 .cm-mw-template-name { color: #80c; font-weight: bold; }
@@ -34,7 +54,7 @@ pre.cm-mw-section-6 { font-weight: bold; }
 .theme--dark .cm-mw-templatevariable-name,
 .theme--dark .cm-mw-templatevariable-bracket,
 .theme--dark .cm-mw-templatevariable-delimiter {
-    color: #FF871F;
+    color: #ff871f;
 }
 
 .cm-mw-templatevariable { color: #f50; font-weight: normal; }
@@ -46,7 +66,7 @@ pre.cm-mw-section-6 { font-weight: bold; }
 .theme--dark .cm-mw-parserfunction-name,
 .theme--dark .cm-mw-parserfunction-bracket,
 .theme--dark .cm-mw-parserfunction-delimiter {
-    color: #FF8585;
+    color: #ff8585;
 }
 
 .cm-mw-parserfunction { font-weight: normal; }
@@ -62,7 +82,7 @@ pre.cm-mw-section-6 { font-weight: bold; }
 .theme--dark .cm-mw-htmltag-name,
 .theme--dark .cm-mw-htmltag-bracket,
 .theme--dark .cm-mw-htmltag-attribute {
-    color: #2CCC00;
+    color: #2ccc00;
 }
 
 pre.cm-mw-exttag { background-image: url( img/ext2.png ); }
@@ -86,11 +106,11 @@ pre.cm-mw-tag-nowiki, .cm-mw-tag-nowiki { background-image: url( img/black4.png 
 .theme--dark .cm-mw-extlink, .theme--dark .cm-mw-free-extlink,
 .theme--dark .cm-mw-extlink-protocol, .theme--dark .cm-mw-free-extlink-protocol,
 .theme--dark .cm-mw-extlink-bracket {
-    color: #89A7E1;
+    color: #89a7e1;
 }
 
 .theme--dark .cm-mw-link-tosection {
-    color: #5DADF4;
+    color: #5dadf4;
 }
 
 .cm-mw-link { color: #36c; font-weight: normal; }
@@ -109,7 +129,7 @@ pre.cm-mw-tag-nowiki, .cm-mw-tag-nowiki { background-image: url( img/black4.png 
 .theme--dark .cm-mw-table-bracket,
 .theme--dark .cm-mw-table-delimiter,
 .theme--dark .cm-mw-table-definition {
-    color: #FF75FF;
+    color: #ff75ff;
 }
 
 .cm-mw-table-bracket { color: #e0e; font-weight: bold; }

@@ -14,6 +14,10 @@
 	color: #8a5700;
 }
 
+.theme--dark .cm-mw-htmltag-attribute {
+	color: #f59b00;
+}
+
 .CodeMirror.cm-s-default.CodeMirror-wrap > div > textarea {
 	/* stylelint-disable-next-line declaration-no-important */
 	width: 0 !important;
