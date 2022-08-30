@@ -10,12 +10,12 @@
 	color: var( --clr-on-surface, #000000 );
 }
 
-.theme--dark .cm-mw-htmltag-attribute {
-	color: #f59b00;
-}
-
 .cm-mw-htmltag-attribute {
 	color: #8a5700;
+}
+
+.theme--dark .cm-mw-htmltag-attribute {
+	color: #f59b00;
 }
 
 .CodeMirror.cm-s-default.CodeMirror-wrap > div > textarea {
