@@ -10,6 +10,10 @@
 	color: var( --clr-on-surface, #000000 );
 }
 
+.theme--dark .cm-mw-htmltag-attribute {
+	color: #F59b00;
+}
+
 .cm-mw-htmltag-attribute {
 	color: #8a5700;
 }
