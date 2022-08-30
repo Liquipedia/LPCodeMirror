@@ -6,8 +6,8 @@
 	height: 600px;
 	font-family: 'Source Code Pro', monospace;
 	font-size: 13px;
-	background-color: var( --clr-surface );
-	color: var( --clr-on-surface );
+	background-color: var( --clr-surface, #ffffff );
+	color: var( --clr-on-surface, #000000 );
 }
 
 .cm-mw-htmltag-attribute {
@@ -74,7 +74,7 @@
 }
 
 div.wikiEditor-ui .wikiEditor-ui-view {
-	border-color: var( --clr-border );
+	border-color: var( --clr-border, #c8ccd1 );
 }
 
 .CodeMirror.lineWrapping pre {
@@ -84,8 +84,8 @@ div.wikiEditor-ui .wikiEditor-ui-view {
 }
 
 div.wikiEditor-ui-toolbar {
-	background-color: var( --clr-surface-4 );
-	color: var( --clr-on-surface );
+	background-color: var( --clr-surface-4, #f8f9fa );
+	color: var( --clr-on-surface, #212529 );
 }
 
 div.wikiEditor-ui-toolbar .group .tool-select .options {
@@ -94,14 +94,14 @@ div.wikiEditor-ui-toolbar .group .tool-select .options {
 }
 
 .CodeMirror-activeline-background {
-	background-color: var( --clr-surface-1 );
+	background-color: var( --clr-surface-2, #e8f2ff );
 }
 
 .CodeMirror-linenumber {
 	cursor: pointer;
-	color: var( --clr-on-surface );
+	color: var( --clr-on-surface, #999999 );
 }
 
 .CodeMirror-gutters {
-	background-color: var( --clr-surface-1 );
+	background-color: var( --clr-surface-1, #f7f7f7 );
 }
