@@ -118,10 +118,14 @@ div.wikiEditor-ui-toolbar .group .tool-select .options {
 	background: var( --clr-surface-2, #d7d4f0 );
 }
 
-.CodeMirror-line::selection, .CodeMirror-line > span::selection, .CodeMirror-line > span > span::selection {
+.CodeMirror-line::selection,
+.CodeMirror-line > span::selection,
+.CodeMirror-line > span > span::selection {
 	background: var( --clr-surface-2, #d7d4f0 );
 }
 
-.CodeMirror-line::-moz-selection, .CodeMirror-line > span::-moz-selection, .CodeMirror-line > span > span::-moz-selection {
+.CodeMirror-line::-moz-selection,
+.CodeMirror-line > span::-moz-selection,
+.CodeMirror-line > span > span::-moz-selection {
 	background: var( --clr-surface-2, #d7d4f0 );
 }
