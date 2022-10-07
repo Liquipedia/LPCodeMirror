@@ -33,6 +33,8 @@ pre.cm-mw-section-6 { font-weight: bold; }
 
 .cm-mw-section-header { color: #08f; font-weight: normal; }
 
+
+/* Purple links */
 .theme--dark .cm-mw-template,
 .theme--dark .cm-mw-template-name,
 .theme--dark .cm-mw-template-name-mnemonic,
@@ -168,3 +170,29 @@ pre.cm-mw-tag-nowiki, .cm-mw-tag-nowiki { background-image: url( img/black4.png 
 .cm-mw-ext2-link-ground { background-image: url( img/ext4.png ), url( img/link4.png ); }
 .cm-mw-ext3-link-ground { background-image: url( img/ext4.png ), url( img/ext4.png ), url( img/link4.png ); }
 .cm-mw-link-ground { background-image: url( img/link4.png ); }
+
+/* Default theme colors override for dark mode */
+.theme--dark .cm-s-default .cm-header {color: #8a8aff;}
+.theme--dark .cm-s-default .cm-quote { color: #00b800; }
+.theme--dark .cm-negative { color: #e67575; }
+.theme--dark .cm-positive { color: #27b027; }
+.theme--dark .cm-s-default .cm-keyword { color: #ea4dff; }
+.theme--dark .cm-s-default .cm-atom { color: #9688f2;}
+.theme--dark .cm-s-default .cm-number { color: #1eae74; }
+.theme--dark .cm-s-default .cm-def { color: #8a8aff; }
+.theme--dark .cm-s-default .cm-variable-2 { color: #3399ff;}
+.theme--dark .cm-s-default .cm-variable-3, .cm-s-default .cm-type { color: #00b371; }
+.theme--dark .cm-s-default .cm-comment { color: #eb7500; }
+.theme--dark .cm-s-default .cm-string { color: #f27d7d; }
+.theme--dark .cm-s-default .cm-string-2 { color: #ff661a; }
+.theme--dark .cm-s-default .cm-meta { color: #969696; }
+.theme--dark .cm-s-default .cm-qualifier { color: #969696; }
+.theme--dark .cm-s-default .cm-builtin { color: #a985ff; }
+.theme--dark .cm-s-default .cm-tag { color: #1bb300; }
+.theme--dark .cm-s-default .cm-attribute { color: #8a8aff; }
+.theme--dark .cm-s-default .cm-hr { color: #999; }
+.theme--dark .cm-s-default .cm-link { color: #8a8aff; }
+.theme--dark .cm-s-default .cm-error { color: #ff6161; }
+.theme--dark .cm-invalidchar { color: #ff6161; }
+.theme--dark div.CodeMirror span.CodeMirror-nonmatchingbracket { color: #e47777; }
+.theme--dark .CodeMirror-activeline-background {background: #e8f2ff;}
