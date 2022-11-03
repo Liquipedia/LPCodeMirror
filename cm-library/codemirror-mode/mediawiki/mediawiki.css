@@ -195,4 +195,3 @@ pre.cm-mw-tag-nowiki, .cm-mw-tag-nowiki { background-image: url( img/black4.png 
 .theme--dark .cm-s-default .cm-error { color: #ff6161; }
 .theme--dark .cm-invalidchar { color: #ff6161; }
 .theme--dark div.CodeMirror span.CodeMirror-nonmatchingbracket { color: #e47777; }
-.theme--dark .CodeMirror-activeline-background {background: #e8f2ff;}
