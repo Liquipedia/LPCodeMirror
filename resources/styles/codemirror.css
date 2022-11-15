@@ -77,19 +77,10 @@
 	z-index: 10000;
 }
 
-div.wikiEditor-ui .wikiEditor-ui-view {
-	border-color: var( --clr-border, #c8ccd1 );
-}
-
 .CodeMirror.lineWrapping pre {
 	word-wrap: break-word;
 	white-space: pre-wrap;
 	word-break: normal;
-}
-
-div.wikiEditor-ui-toolbar {
-	background-color: var( --clr-surface-4, #f8f9fa );
-	color: var( --clr-on-surface, #212529 );
 }
 
 div.wikiEditor-ui-toolbar .group .tool-select .options {
