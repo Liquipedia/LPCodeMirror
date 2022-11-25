@@ -89,7 +89,7 @@ div.wikiEditor-ui-toolbar .group .tool-select .options {
 }
 
 .CodeMirror-activeline-background {
-	background-color: var( --clr-surface-2, #e8f2ff );
+	background-color: var( --clr-surface-3, #e8f2ff );
 }
 
 .CodeMirror-linenumber {
