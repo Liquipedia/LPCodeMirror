@@ -89,7 +89,7 @@ div.wikiEditor-ui-toolbar .group .tool-select .options {
 }
 
 .CodeMirror-activeline-background {
-	background-color: var( --clr-surface-2, #e8f2ff );
+	background-color: var( --clr-surface-3, #e8f2ff );
 }
 
 .CodeMirror-linenumber {
@@ -102,15 +102,15 @@ div.wikiEditor-ui-toolbar .group .tool-select .options {
 }
 
 .CodeMirror-selected {
-	background: var( --clr-surface-2, #d9d9d9 );
+	background: var( --clr-surface-3, #d9d9d9 );
 }
 
 .CodeMirror-focused .CodeMirror-selected {
-	background: var( --clr-surface-2, #d7d4f0 );
+	background: var( --clr-surface-3, #d7d4f0 );
 }
 
 .CodeMirror-line::selection,
 .CodeMirror-line > span::selection,
 .CodeMirror-line > span > span::selection {
-	background: var( --clr-surface-2, #d7d4f0 );
+	background: var( --clr-surface-3, #d7d4f0 );
 }
