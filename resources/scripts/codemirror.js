@@ -7,12 +7,12 @@ if ( !String.prototype.startsWith ) {
 
 if ( !String.prototype.endsWith ) {
 	String.prototype.endsWith = function( searchString, position ) {
-		var subjectString = this.toString();
+		const subjectString = this.toString();
 		if ( typeof position !== 'number' || !isFinite( position ) || Math.floor( position ) !== position || position > subjectString.length ) {
 			position = subjectString.length;
 		}
 		position -= searchString.length;
-		var lastIndex = subjectString.indexOf( searchString, position );
+		const lastIndex = subjectString.indexOf( searchString, position );
 		return lastIndex !== -1 && lastIndex === position;
 	};
 }
@@ -46,19 +46,17 @@ if ( !String.prototype.includes ) {
 
 	// codeMirror needs a special textselection jQuery function to work,
 	// save the current one to restore when CodeMirror get's disabled.
-	var origTextSelection = $.fn.textSelection,
+	const origTextSelection = $.fn.textSelection,
 		codeMirrorPhone = mw.user.options.get( 'lpcodemirror-prefs-use-codemirror-phone' ) === '1' || mw.user.options.get( 'lpcodemirror-prefs-use-codemirror-phone' ) === 1,
 		codeMirrorTablet = mw.user.options.get( 'lpcodemirror-prefs-use-codemirror-tablet' ) === '1' || mw.user.options.get( 'lpcodemirror-prefs-use-codemirror-tablet' ) === 1,
-		codeMirrorDesktop = mw.user.options.get( 'lpcodemirror-prefs-use-codemirror' ) === '1' || mw.user.options.get( 'lpcodemirror-prefs-use-codemirror' ) === 1,
-		codeMirror,
-		// function for a textselection function for CodeMirror
-		cmTextSelection = function( command, options ) {
+		codeMirrorDesktop = mw.user.options.get( 'lpcodemirror-prefs-use-codemirror' ) === '1' || mw.user.options.get( 'lpcodemirror-prefs-use-codemirror' ) === 1;
+	let codeMirror;
+	// function for a textselection function for CodeMirror
+	const cmTextSelection = function( command, options ) {
 			if ( !codeMirror || codeMirror.getTextArea() !== this[ 0 ] ) {
 				return origTextSelection.call( this, command, options );
 			}
-			var fn, retval;
-
-			fn = {
+			const fn = {
 				/*
 				 * Get the contents of the textarea
 				 */
@@ -84,12 +82,12 @@ if ( !String.prototype.includes ) {
 				 * inserting text at the caret when selection is empty.
 				 */
 				encapsulateSelection: function( options ) {
-					var insertText,
+					let insertText,
 						selText,
 						selectPeri = options.selectPeri,
 						pre = options.pre,
-						post = options.post,
-						startCursor = codeMirror.getCursor( true ),
+						post = options.post;
+					const startCursor = codeMirror.getCursor( true ),
 						endCursor = codeMirror.getCursor( false );
 
 					if ( options.selectionStart !== undefined ) {
@@ -125,9 +123,9 @@ if ( !String.prototype.includes ) {
 					 * Wrap each line of the selected text with pre and post
 					 */
 					function doSplitLines( selText, pre, post ) {
-						var i,
-							insertText = '',
-							selTextArr = selText.split( '\n' );
+						let i,
+							insertText = '';
+						const selTextArr = selText.split( '\n' );
 
 						for ( i = 0; i < selTextArr.length; i++ ) {
 							insertText += pre + selTextArr[ i ] + post;
@@ -177,7 +175,9 @@ if ( !String.prototype.includes ) {
 				 * in a textarea
 				 */
 				getCaretPosition: function( options ) {
-					var caretPos = codeMirror.doc.indexFromPos( codeMirror.doc.getCursor( true ) ),
+					const caretPos = codeMirror.doc.indexFromPos(
+							codeMirror.doc.getCursor( true )
+						),
 						endPos = codeMirror.doc.indexFromPos( codeMirror.doc.getCursor( false ) );
 					if ( options.startAndEnd ) {
 						return [ caretPos, endPos ];
@@ -267,7 +267,7 @@ if ( !String.prototype.includes ) {
 					break;
 			}
 
-			retval = fn[ command ].call( this, options );
+			const retval = fn[ command ].call( this, options );
 			codeMirror.focus();
 
 			return retval;
@@ -278,15 +278,15 @@ if ( !String.prototype.includes ) {
 	 * Replaces the default textarea with CodeMirror
 	 */
 	function enableCodeMirror() {
-		var config = mw.config.get( 'LPCodeMirrorConfig' );
-		var $textbox1 = $( '#wpTextbox1' );
+		const config = mw.config.get( 'LPCodeMirrorConfig' );
+		const $textbox1 = $( '#wpTextbox1' );
 
 		if ( $textbox1[ 0 ].style.display === 'none' ) {
 			return;
 		}
-		var editmode;
-		var indentmode;
-		var pageContentModel = mw.config.get( 'wgPageContentModel' );
+		let editmode;
+		let indentmode;
+		const pageContentModel = mw.config.get( 'wgPageContentModel' );
 		if ( pageContentModel === 'wikitext' ) {
 			editmode = 'text/mediawiki';
 			indentmode = true;
@@ -303,7 +303,7 @@ if ( !String.prototype.includes ) {
 			editmode = 'text/mediawiki';
 			indentmode = false;
 		}
-		var linewrapping = mw.user.options.get( 'lpcodemirror-prefs-use-codemirror-linewrap' ) === '1' ||
+		const linewrapping = mw.user.options.get( 'lpcodemirror-prefs-use-codemirror-linewrap' ) === '1' ||
 			mw.user.options.get( 'lpcodemirror-prefs-use-codemirror-linewrap' ) === 1;
 		codeMirror = CodeMirror.fromTextArea( $textbox1[ 0 ], {
 			mwConfig: config,
@@ -338,15 +338,15 @@ if ( !String.prototype.includes ) {
 		}
 
 		// set the height of the textarea
-		var editorHeight = $textbox1.height();
+		const editorHeight = $textbox1.height();
 		codeMirror.setSize( null, editorHeight );
 		// Overwrite default textselection of WikiEditor to work with CodeMirror, too
 		$.fn.textSelection = cmTextSelection;
 
 		function openPageOnClick( cssClass, element ) {
-			var pagename = element.text();
-			var index = element.index();
-			var counter;
+			let pagename = element.text();
+			const index = element.index();
+			let counter;
 
 			counter = index - 1;
 			while ( element.parent().children().eq( counter ).hasClass( cssClass ) ) {
@@ -386,13 +386,14 @@ if ( !String.prototype.includes ) {
 		} );
 
 		// Jump to correct line number if appropriate hash is given (`#mw-ce-l42`)
-		var magicHashPrefix = '#mw-ce-l';
+		const magicHashPrefix = '#mw-ce-l';
 		function attemptLineChangeOnHash() {
-			var hashRegex = new RegExp( '^' + magicHashPrefix + '(?<linenumber>[0-9]+)$' );
+			// eslint-disable-next-line es-x/no-regexp-named-capture-groups
+			const hashRegex = new RegExp( '^' + magicHashPrefix + '(?<linenumber>[0-9]+)$' );
 			if ( hashRegex.test( window.location.hash ) ) {
-				var result = window.location.hash.match( hashRegex );
-				var lineNumber = parseInt( result.groups.linenumber ) - 1;
-				var target = { line: lineNumber, ch: 0 };
+				const result = window.location.hash.match( hashRegex );
+				const lineNumber = parseInt( result.groups.linenumber ) - 1;
+				const target = { line: lineNumber, ch: 0 };
 				codeMirror.setCursor( target );
 				codeMirror.scrollIntoView( target, parseInt( editorHeight ) / 2 );
 			}
@@ -406,7 +407,7 @@ if ( !String.prototype.includes ) {
 
 		document.querySelectorAll( '.CodeMirror' ).forEach( function( el ) {
 			el.addEventListener( 'click', function( ev ) {
-				var targetElement = ev.target;
+				const targetElement = ev.target;
 				if ( targetElement.classList.contains( 'CodeMirror-linenumber' ) ) {
 					window.location.hash = magicHashPrefix + targetElement.innerHTML;
 				}
