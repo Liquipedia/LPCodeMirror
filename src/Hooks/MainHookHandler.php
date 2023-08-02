@@ -23,8 +23,11 @@ class MainHookHandler implements
 	 * @param Skin $skin
 	 */
 	public function onBeforePageDisplay( $out, $skin ): void {
+		$userOptionsLookup = MediaWikiServices::getInstance()->getUserOptionsLookup();
+		$option = 'lpcodemirror-prefs-use-codemirror';
+		$useCodeMirror = $userOptionsLookup->getOption( $skin->getUser(), $option );
 		if (
-			$skin->getUser()->getOption( 'lpcodemirror-prefs-use-codemirror' ) == true
+			$useCodeMirror
 			&& in_array( $out->getContext()->getRequest()->getText( 'action' ), [ 'edit', 'submit' ] )
 		) {
 			$out->addModules( 'ext.LPCodeMirror.codemirror' );
