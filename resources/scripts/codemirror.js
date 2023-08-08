@@ -268,7 +268,6 @@ if ( !String.prototype.includes ) {
 			}
 
 			const retval = fn[ command ].call( this, options );
-			codeMirror.focus();
 
 			return retval;
 		},
