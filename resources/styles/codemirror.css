@@ -116,5 +116,5 @@ div.wikiEditor-ui-toolbar .group .tool-select .options {
 }
 
 .theme--dark .CodeMirror-cursor {
-	border-color: var(--clr-on-background, #d7d4f0 );
+	border-color: var( --clr-on-background, #d7d4f0 );
 }
