@@ -114,3 +114,7 @@ div.wikiEditor-ui-toolbar .group .tool-select .options {
 .CodeMirror-line > span > span::selection {
 	background: var( --clr-surface-3, #d7d4f0 );
 }
+
+.theme--dark .CodeMirror-cursor {
+	border-color: var(--clr-on-background, #d7d4f0 );
+}
