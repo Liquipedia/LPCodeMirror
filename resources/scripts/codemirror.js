@@ -423,7 +423,7 @@ if ( !String.prototype.includes ) {
 		codeMirror = codeMirrorDesktop;
 	}
 	if ( codeMirror ) {
-		mw.hook( 'wikipage.editform' ).add( function() {
+		mw.hook( 'wikiEditor.toolbarReady' ).add( function() {
 			enableCodeMirror();
 
 			// define JQuery hook for searching and replacing text using
