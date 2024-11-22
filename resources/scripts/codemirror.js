@@ -372,6 +372,23 @@ if ( !String.prototype.includes ) {
 			window.open( mw.config.get( 'wgScriptPath' ) + '/' + pagename );
 		}
 
+		function openModuleOnClick( /** @type { HTMLElement } **/ element ) {
+			let pagename = element.text();
+
+			/** @type { HTMLElement | undefined } */
+			const parserfunction = element.parent().children().eq( element.index() - 2 )
+
+			if ( pagename.startsWith( 'module=' ) ) {
+				pagename = pagename.slice( 7 );
+			} else if ( !parserfunction.hasClass( 'cm-mw-parserfunction-name' ) 
+				|| parserfunction.text() !== '#invoke' ) {
+				return;
+			}
+			
+			pagename = 'Module:' + pagename
+			window.open( mw.config.get( 'wgScriptPath' ) + '/' + pagename );
+		}
+
 		$( '.CodeMirror' ).on( 'click', '.cm-mw-template-name', function( e ) {
 			if ( e.altKey ) {
 				openPageOnClick( 'cm-mw-template-name', $( this ) );
@@ -381,6 +398,12 @@ if ( !String.prototype.includes ) {
 		$( '.CodeMirror' ).on( 'click', '.cm-mw-link-pagename', function( e ) {
 			if ( e.altKey ) {
 				openPageOnClick( 'cm-mw-link-pagename', $( this ) );
+			}
+		} );
+		
+		$( '.CodeMirror' ).on( 'click', '.cm-mw-parserfunction', function( e ) {
+			if ( e.altKey ) {
+				openModuleOnClick( $( this ) );
 			}
 		} );
 
