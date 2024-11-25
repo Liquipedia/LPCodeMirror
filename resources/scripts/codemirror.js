@@ -209,7 +209,7 @@ if ( !String.prototype.includes ) {
 				// case 'setContents': // no params with defaults
 				// case 'getSelection': // no params
 				case 'encapsulateSelection':
-					options = $.extend( {
+					options = Object.assign( {
 						// Text to insert before the cursor/selection
 						pre: '',
 						// Text to insert between pre and post and select afterwards
@@ -232,7 +232,7 @@ if ( !String.prototype.includes ) {
 					}, options );
 					break;
 				case 'getCaretPosition':
-					options = $.extend( {
+					options = Object.assign( {
 						// Return [start, end] instead of just start
 						startAndEnd: false
 					}, options );
@@ -240,7 +240,7 @@ if ( !String.prototype.includes ) {
 					// if we insert markers in the right places
 					break;
 				case 'setSelection':
-					options = $.extend( {
+					options = Object.assign( {
 						// Position to start selection at
 						start: undefined,
 						// Position to end selection at. Defaults to start
@@ -261,7 +261,7 @@ if ( !String.prototype.includes ) {
 					// functions if we insert markers in the right places
 					break;
 				case 'scrollToCaretPosition':
-					options = $.extend( {
+					options = Object.assign( {
 						force: false // Force a scroll even if the caret position is already visible
 					}, options );
 					break;
@@ -372,6 +372,23 @@ if ( !String.prototype.includes ) {
 			window.open( mw.config.get( 'wgScriptPath' ) + '/' + pagename );
 		}
 
+		function openModuleOnClick( /** @type { HTMLElement } **/ element ) {
+			let pagename = element.text();
+
+			/** @type { HTMLElement | undefined } */
+			const parserfunction = element.parent().children().eq( element.index() - 2 );
+
+			if ( pagename.startsWith( 'module=' ) ) {
+				pagename = pagename.slice( 7 );
+			} else if ( !parserfunction.hasClass( 'cm-mw-parserfunction-name' ) ||
+				parserfunction.text() !== '#invoke' ) {
+				return;
+			}
+
+			pagename = 'Module:' + pagename;
+			window.open( mw.config.get( 'wgScriptPath' ) + '/' + pagename );
+		}
+
 		$( '.CodeMirror' ).on( 'click', '.cm-mw-template-name', function( e ) {
 			if ( e.altKey ) {
 				openPageOnClick( 'cm-mw-template-name', $( this ) );
@@ -381,6 +398,12 @@ if ( !String.prototype.includes ) {
 		$( '.CodeMirror' ).on( 'click', '.cm-mw-link-pagename', function( e ) {
 			if ( e.altKey ) {
 				openPageOnClick( 'cm-mw-link-pagename', $( this ) );
+			}
+		} );
+
+		$( '.CodeMirror' ).on( 'click', '.cm-mw-parserfunction', function( e ) {
+			if ( e.altKey ) {
+				openModuleOnClick( $( this ) );
 			}
 		} );
 
@@ -400,12 +423,12 @@ if ( !String.prototype.includes ) {
 
 		attemptLineChangeOnHash();
 
-		window.addEventListener( 'hashchange', function() {
+		window.addEventListener( 'hashchange', () => {
 			attemptLineChangeOnHash();
 		} );
 
-		document.querySelectorAll( '.CodeMirror' ).forEach( function( el ) {
-			el.addEventListener( 'click', function( ev ) {
+		document.querySelectorAll( '.CodeMirror' ).forEach( ( el ) => {
+			el.addEventListener( 'click', ( ev ) => {
 				const targetElement = ev.target;
 				if ( targetElement.classList.contains( 'CodeMirror-linenumber' ) ) {
 					window.location.hash = magicHashPrefix + targetElement.innerHTML;
@@ -423,7 +446,7 @@ if ( !String.prototype.includes ) {
 		codeMirror = codeMirrorDesktop;
 	}
 	if ( codeMirror ) {
-		mw.hook( 'wikiEditor.toolbarReady' ).add( function() {
+		mw.hook( 'wikiEditor.toolbarReady' ).add( () => {
 			enableCodeMirror();
 
 			// define JQuery hook for searching and replacing text using
