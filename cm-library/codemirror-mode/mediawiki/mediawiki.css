@@ -8,7 +8,7 @@
 
 .theme--dark .cm-mw-skipformatting { background-color: #00568f }
 .theme--dark .cm-mw-list { color: #52aeff; }
-.theme--dark .cm-mw-doubleUnderscore, .cm-mw-signature, .cm-mw-hr { color: #52aeff; background-color: var( --clr-surface-5 ); }
+.theme--dark .cm-mw-doubleUnderscore, .cm-mw-signature, .cm-mw-hr { color: #52aeff; background-color: var( --clr-surface-4 ); }
 .theme--dark .cm-mw-indenting { color: #52aeff; }
 .theme--dark .cm-mw-mnemonic { color: #2ccc00; }
 .theme--dark .cm-mw-comment { color: #94adad; }
