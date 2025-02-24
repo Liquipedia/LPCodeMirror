@@ -92,6 +92,10 @@ div.wikiEditor-ui-toolbar .group .tool-select .options {
 	background-color: var( --clr-surface-3, #e8f2ff );
 }
 
+.theme--dark .CodeMirror-activeline-background {
+	background-color: #3a3a3a;
+}
+
 .CodeMirror-linenumber {
 	cursor: pointer;
 	color: var( --clr-on-surface, #999999 );
@@ -105,8 +109,16 @@ div.wikiEditor-ui-toolbar .group .tool-select .options {
 	background: var( --clr-surface-3, #d9d9d9 );
 }
 
+.theme--dark .CodeMirror-selected {
+	background: #3a3a3a;
+}
+
 .CodeMirror-focused .CodeMirror-selected {
 	background: var( --clr-surface-3, #d7d4f0 );
+}
+
+.theme--dark .CodeMirror-focused .CodeMirror-selected {
+	background: #3a3a3a;
 }
 
 .CodeMirror-line::selection,
