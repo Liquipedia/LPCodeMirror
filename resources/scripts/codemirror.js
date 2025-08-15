@@ -380,6 +380,10 @@ if ( !String.prototype.includes ) {
 
 			if ( pagename.startsWith( 'module=' ) ) {
 				pagename = pagename.slice( 7 );
+			} else if ( pagename.startsWith( 'widget=' ) ) {
+				// Support invokes of style
+				// {{#invoke:Lua|invoke|module=Widget/Factory|fn=fromTemplate|widget=pagename}}
+				pagename = pagename.replace( 'widget=', 'Widget/' )
 			} else if ( !parserfunction.hasClass( 'cm-mw-parserfunction-name' ) ||
 				parserfunction.text() !== '#invoke' ) {
 				return;
