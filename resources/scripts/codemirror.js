@@ -1,36 +1,3 @@
-if ( !String.prototype.startsWith ) {
-	String.prototype.startsWith = function( searchString, position ) {
-		position = position || 0;
-		return this.slice( position, position + searchString.length ) === searchString;
-	};
-}
-
-if ( !String.prototype.endsWith ) {
-	String.prototype.endsWith = function( searchString, position ) {
-		const subjectString = this.toString();
-		if ( typeof position !== 'number' || !isFinite( position ) || Math.floor( position ) !== position || position > subjectString.length ) {
-			position = subjectString.length;
-		}
-		position -= searchString.length;
-		const lastIndex = subjectString.indexOf( searchString, position );
-		return lastIndex !== -1 && lastIndex === position;
-	};
-}
-
-if ( !String.prototype.includes ) {
-	String.prototype.includes = function( search, start ) {
-		'use strict';
-		if ( typeof start !== 'number' ) {
-			start = 0;
-		}
-		if ( start + search.length > this.length ) {
-			return false;
-		} else {
-			return this.indexOf( search, start ) !== -1;
-		}
-	};
-}
-
 /*
  * Adapted from https://www.mediawiki.org/wiki/Extension:CodeMirror
  * License: GPL 2.0 or later
@@ -328,10 +295,6 @@ if ( !String.prototype.includes ) {
 			lineWrapping: linewrapping,
 			styleActiveLine: true
 		} );
-		// Our best friend, IE, needs some special css
-		if ( window.navigator.userAgent.indexOf( 'Trident/' ) > -1 ) {
-			$( '.CodeMirror' ).addClass( 'CodeMirrorIE' );
-		}
 		if ( linewrapping ) {
 			$( '.CodeMirror' ).addClass( 'lineWrapping' );
 		}
@@ -380,6 +343,10 @@ if ( !String.prototype.includes ) {
 
 			if ( pagename.startsWith( 'module=' ) ) {
 				pagename = pagename.slice( 7 );
+			} else if ( pagename.startsWith( 'widget=' ) ) {
+				// Support invokes of style
+				// {{#invoke:Lua|invoke|module=Widget/Factory|fn=fromTemplate|widget=pagename}}
+				pagename = pagename.replace( 'widget=', 'Widget/' );
 			} else if ( !parserfunction.hasClass( 'cm-mw-parserfunction-name' ) ||
 				parserfunction.text() !== '#invoke' ) {
 				return;
