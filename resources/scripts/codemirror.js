@@ -358,7 +358,7 @@
 
 		function openRequiredModuleOnClick( /** @type { HTMLElement } **/ element ) {
 			let modulename = element.text();
-			modulename = modulename.replace(/^['"]/, '').replace(/['"]$/, '')
+			modulename = modulename.replace( /^['"]/, '' ).replace( /['"]$/, '' );
 			if ( modulename.startsWith( 'Module:' ) ) {
 				window.open( mw.config.get( 'wgScriptPath' ) + '/' + modulename );
 			}
