@@ -356,6 +356,14 @@
 			window.open( mw.config.get( 'wgScriptPath' ) + '/' + pagename );
 		}
 
+		function openRequiredModuleOnClick( /** @type { HTMLElement } **/ element ) {
+			let modulename = element.text();
+			modulename = modulename.replace( /^['"]/, '' ).replace( /['"]$/, '' );
+			if ( modulename.startsWith( 'Module:' ) ) {
+				window.open( mw.config.get( 'wgScriptPath' ) + '/' + modulename );
+			}
+		}
+
 		$( '.CodeMirror' ).on( 'click', '.cm-mw-template-name', function( e ) {
 			if ( e.altKey ) {
 				openPageOnClick( 'cm-mw-template-name', $( this ) );
@@ -371,6 +379,14 @@
 		$( '.CodeMirror' ).on( 'click', '.cm-mw-parserfunction', function( e ) {
 			if ( e.altKey ) {
 				openModuleOnClick( $( this ) );
+			}
+		} );
+
+		// Selector variable + string accounts for usage of Lua.import('Module:...')
+		// Selector builtin + string accounts for usage of require('Module:...')
+		$( '.CodeMirror' ).on( 'click', '.cm-variable + .cm-string, .cm-builtin + .cm-string', function( e ) {
+			if ( e.altKey ) {
+				openRequiredModuleOnClick( $( this ) );
 			}
 		} );
 
